@@ -22,15 +22,42 @@ class stack_warp_image_multi_transform(output_volume_workflow):
     """
 
     _f = {
-        'moving_raw': pos_parameters.filename('moving_raw', work_dir='00_override_this', str_template='{idx:04d}.nii.gz'),
-        'fixed_raw': pos_parameters.filename('fixed_raw', work_dir='00_override_this', str_template='{idx:04d}.nii.gz'),
-        'output_transforms': pos_parameters.filename('output_transforms', work_dir='02_transforms', str_template='{idx:04d}.nii.gz'),
-        'output_transf_affine': pos_parameters.filename('output_transf_affine', work_dir='02_transforms', str_template='{idx:04d}.txt'),
-        'components': pos_parameters.filename('components', work_dir='04_rgb_components', str_template='{idx:04d}_{comp:02d}.nii.gz'),
-        'resliced_components': pos_parameters.filename('resliced_components', work_dir='05_resliced_rgb_components', str_template='{idx:04d}_{comp:02d}.nii.gz'),
-        'resliced': pos_parameters.filename('resliced', work_dir='06_resliced', str_template='{idx:04d}.nii.gz'),
-        'resliced_mask': pos_parameters.filename('resliced_mask', work_dir='06_resliced', str_template='%04d.nii.gz'),
-        'out_volume': pos_parameters.filename('out_volume', work_dir='07_output_volumes', str_template='{fname}_color.nii.gz'),
+        'moving_raw':
+            pos_parameters.filename('moving_raw',
+                                    work_dir='00_override_this',
+                                    str_template='{idx:04d}.nii.gz'),
+        'fixed_raw':
+            pos_parameters.filename('fixed_raw',
+                                    work_dir='00_override_this',
+                                    str_template='{idx:04d}.nii.gz'),
+        'output_transforms':
+            pos_parameters.filename('output_transforms',
+                                    work_dir='02_transforms',
+                                    str_template='{idx:04d}.nii.gz'),
+        'output_transf_affine':
+            pos_parameters.filename('output_transf_affine',
+                                    work_dir='02_transforms',
+                                    str_template='{idx:04d}.txt'),
+        'components':
+            pos_parameters.filename('components',
+                                    work_dir='04_rgb_components',
+                                    str_template='{idx:04d}_{comp:02d}.nii.gz'),
+        'resliced_components':
+            pos_parameters.filename('resliced_components',
+                                    work_dir='05_resliced_rgb_components',
+                                    str_template='{idx:04d}_{comp:02d}.nii.gz'),
+        'resliced':
+            pos_parameters.filename('resliced',
+                                    work_dir='06_resliced',
+                                    str_template='{idx:04d}.nii.gz'),
+        'resliced_mask':
+            pos_parameters.filename('resliced_mask',
+                                    work_dir='06_resliced',
+                                    str_template='%04d.nii.gz'),
+        'out_volume':
+            pos_parameters.filename('out_volume',
+                                    work_dir='07_output_volumes',
+                                    str_template='{fname}_color.nii.gz'),
         }
 
     _usage = ""
@@ -351,7 +378,7 @@ class stack_warp_image_multi_transform(output_volume_workflow):
         # used.
         self._logger.debug(r("Detecting the image properties of the first \
             image in the stack to choose a proper reslicing routine."))
-        first_img_idx = self._slice_transform_map.items()[0][0]
+        first_img_idx = list(self._slice_transform_map.items())[0][0]
         first_img_fname = self.f['moving_raw'](idx=first_img_idx)
         pixel_type = autodetect_file_type(first_img_fname, ret_itk=False)[0]
 

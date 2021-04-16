@@ -133,7 +133,7 @@ def flatten(lst):
             for x in flatten(x):
                 yield x
         else:
-                yield x
+            yield x
 
 
 def remove_multiple_spaces_from_string(string):
@@ -160,6 +160,7 @@ def remove_multiple_spaces_from_string(string):
 
     """
     return " ".join(string.strip().split())
+
 
 """
 Here we just create an alias we do not have to import the function using its

@@ -1,10 +1,14 @@
 import copy
 import subprocess as sub
 
-from pos_parameters import string_parameter, value_parameter, filename_parameter, \
-                ants_transformation_parameter, vector_parameter, list_parameter, \
-                switch_parameter, ants_regularization_parameter, boolean_parameter
-import pos_parameters
+from possum import pos_parameters
+from possum.pos_parameters import string_parameter, value_parameter
+from possum.pos_parameters import filename_parameter
+from possum.pos_parameters import ants_transformation_parameter
+from possum.pos_parameters import vector_parameter, list_parameter
+from possum.pos_parameters import switch_parameter
+from possum.pos_parameters import ants_regularization_parameter
+from possum.pos_parameters import boolean_parameter
 
 
 class generic_wrapper(object):
@@ -43,25 +47,24 @@ class generic_wrapper(object):
         self.updateParameters(kwargs)
 
     def __str__(self):
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
         return " ".join(self._template.format(**replacement).strip().split())
-        #return self._template.format(**replacement).strip()
 
     def __call__(self, *args, **kwargs):
-        print "Executing: %s" % str(self)
+        print("Executing: %s" % str(self))
 
         # Tested against execution of multiple commands
         # http://stackoverflow.com/questions/359347/execute-commands-sequentially-in-python
         stdout, stderr = sub.Popen(str(self), stdout=sub.PIPE,
-                            stderr=sub.PIPE, shell=True,
-                            close_fds=True).communicate()
-        print stdout.strip()
-        print stderr.strip()
+                                   stderr=sub.PIPE, shell=True,
+                                   close_fds=True).communicate()
+        print(stdout.strip())
+        print(stderr.strip())
 
         execution = {'port': {}, 'stdout': stdout, 'stderr': stderr}
 
         if hasattr(self, '_io_pass'):
-            for k, v in self._io_pass.iteritems():
+            for k, v in self._io_pass.items():
                 execution['port'][v] = str(self.p[k])
         return execution
 
@@ -132,8 +135,9 @@ class mkdir_wrapper(generic_wrapper):
      A very simple ``mkdir`` bash command wrapper with default
      -p option.
 
-    :param dir_list: A list of directories to to create. Even if you're creating
-                  only a single directory you have to still pass it as a list.
+    :param dir_list: A list of directories to to create. Even if you're
+                  creatingonly a single directory you have to still pass it as
+                  a list.
     :type files: list of strings
 
     >>> mkdir_wrapper
@@ -172,9 +176,9 @@ class mkdir_wrapper(generic_wrapper):
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
       File "pos_wrappers.py", line 46, in __str__
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_wrappers.py", line 46, in <lambda>
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_parameters.py", line 38, in __str__
         return self._serialize()
       File "pos_parameters.py", line 231, in _serialize
@@ -185,9 +189,9 @@ class mkdir_wrapper(generic_wrapper):
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
       File "pos_wrappers.py", line 46, in __str__
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_wrappers.py", line 46, in <lambda>
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_parameters.py", line 38, in __str__
         return self._serialize()
       File "pos_parameters.py", line 231, in _serialize
@@ -247,9 +251,9 @@ class rmdir_wrapper(generic_wrapper):
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
       File "pos_wrappers.py", line 46, in __str__
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_wrappers.py", line 46, in <lambda>
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_parameters.py", line 38, in __str__
         return self._serialize()
       File "pos_parameters.py", line 231, in _serialize
@@ -260,16 +264,15 @@ class rmdir_wrapper(generic_wrapper):
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
       File "pos_wrappers.py", line 46, in __str__
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_wrappers.py", line 46, in <lambda>
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_parameters.py", line 38, in __str__
         return self._serialize()
       File "pos_parameters.py", line 231, in _serialize
         self._list = self._delimiter.join(map(str, self.value))
     TypeError: argument 2 to map() must support iteration
     """
-
 
     _template = """rm -rfv {dir_list}"""
 
@@ -327,9 +330,9 @@ class copy_wrapper(generic_wrapper):
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
       File "pos_wrappers.py", line 46, in __str__
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_wrappers.py", line 46, in <lambda>
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_parameters.py", line 38, in __str__
         return self._serialize()
       File "pos_parameters.py", line 231, in _serialize
@@ -340,9 +343,9 @@ class copy_wrapper(generic_wrapper):
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
       File "pos_wrappers.py", line 46, in __str__
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_wrappers.py", line 46, in <lambda>
-        replacement = dict(map(lambda (k, v): (k, str(v)), self.p.iteritems()))
+        replacement = {k: str(v) for k, v in self.p.items()}
       File "pos_parameters.py", line 38, in __str__
         return self._serialize()
       File "pos_parameters.py", line 231, in _serialize
@@ -427,7 +430,7 @@ class ants_registration(generic_wrapper):
         1. ANTs-1.9.v4-Linux
         2. ANTs-1.9.x-Linux
 
-    >>> metric = ants_intensity_meric(fixed_image='f.nii.gz', moving_image='m.nii.gz')
+    >>> metric = ants_intensity_metric(fixed_image='f.nii.gz', moving_image='m.nii.gz')
     >>> wrapper = ants_registration(imageMetrics=[metric], outputNaming="test_")
     >>> wrapper() # doctest: +ELLIPSIS
     Executing: ...
@@ -446,24 +449,58 @@ class ants_registration(generic_wrapper):
 
     _parameters = {
         'dimension': value_parameter('dimension', 2),
-        'verbose': switch_parameter('verbose', True, str_template='--{_name} {_value}'),
-        'transformation': ants_transformation_parameter('transformation', ('SyN', [0.25])),
-        'regularization': ants_regularization_parameter('regularization', ('Gausas', (3.0, 1.0))),
-        'outputNaming': filename_parameter('output-naming', None, str_template='--{_name} {_value}'),
-        'iterations': vector_parameter('number-of-iterations', (5000,) * 4, '--{_name} {_list}'),
-        'affineIterations': vector_parameter('number-of-affine-iterations', (10000,) * 5, '--{_name} {_list}'),
-        'rigidAffine': switch_parameter('rigid-affine', True, str_template='--{_name} {_value}'),
-        'continueAffine': switch_parameter('continue-affine', True, str_template='--{_name} {_value}'),
-        'useNN': switch_parameter('use-NN', False, str_template='--{_name}'),
-        'histogramMatching': switch_parameter('use-Histogram-Matching', True, str_template='--{_name} {_value}'),
-        'allMetricsConverge': switch_parameter('use-all-metrics-for-convergence', True, str_template='--{_name} {_value}'),
-        'initialAffine': filename_parameter('initial-affine', None, str_template='--{_name} {_value}'),
-        'fixedImageInitialAffine': filename_parameter('fixed-image-initial-affine', None, str_template='--{_name} {_value}'),
-        'affineGradientDescent': vector_parameter('affine-gradient-descent-option', None, '--{_name} {_list}'),
-        'imageMetrics': list_parameter('image_to_image_metrics', [], '{_list}'),
-        'maskImage': filename_parameter('mask-image', None, str_template='--{_name} {_value}'),
-        'miOption': vector_parameter('MI-option', None, str_template='--{_name} {_list}'),
-        'affineMetricType': value_parameter('affine-metric-type', None, str_template='--{_name} {_value}')
+        'verbose':
+            switch_parameter('verbose', True,
+                             str_template='--{_name} {_value}'),
+        'transformation':
+            ants_transformation_parameter('transformation',
+                                          ('SyN', [0.25])),
+        'regularization':
+            ants_regularization_parameter('regularization',
+                                          ('Gauss', (3.0, 1.0))),
+        'outputNaming':
+            filename_parameter('output-naming', None,
+                               str_template='--{_name} {_value}'),
+        'iterations':
+            vector_parameter('number-of-iterations',
+                             (5000,) * 4, '--{_name} {_list}'),
+        'affineIterations':
+            vector_parameter('number-of-affine-iterations',
+                             (10000,) * 5, '--{_name} {_list}'),
+        'rigidAffine':
+            switch_parameter('rigid-affine', True,
+                             str_template='--{_name} {_value}'),
+        'continueAffine':
+            switch_parameter('continue-affine', True,
+                             str_template='--{_name} {_value}'),
+        'useNN':
+            switch_parameter('use-NN', False, str_template='--{_name}'),
+        'histogramMatching':
+            switch_parameter('use-Histogram-Matching', True,
+                             str_template='--{_name} {_value}'),
+        'allMetricsConverge':
+            switch_parameter('use-all-metrics-for-convergence', True,
+                             str_template='--{_name} {_value}'),
+        'initialAffine':
+            filename_parameter('initial-affine', None,
+                               str_template='--{_name} {_value}'),
+        'fixedImageInitialAffine':
+            filename_parameter('fixed-image-initial-affine', None,
+                               str_template='--{_name} {_value}'),
+        'affineGradientDescent':
+            vector_parameter('affine-gradient-descent-option', None,
+                             '--{_name} {_list}'),
+        'imageMetrics':
+            list_parameter('image_to_image_metrics', [], '{_list}'),
+        'maskImage':
+            filename_parameter('mask-image', None,
+                               str_template='--{_name} {_value}'),
+        'miOption':
+            vector_parameter('MI-option', None,
+                             str_template='--{_name} {_list}'),
+        'affineMetricType':
+            value_parameter('affine-metric-type', None,
+                            str_template='--{_name} {_value}')
     }
 
     _io_pass = {
@@ -472,12 +509,15 @@ class ants_registration(generic_wrapper):
 
     def __call__(self, *args, **kwargs):
         execution = super(self.__class__, self).__call__(*args, **kwargs)
-        execution['port']['deformable_list'] = [str(self.p['outputNaming'].value) + 'Warp.nii.gz']
+        execution['port']['deformable_list'] = \
+            [str(self.p['outputNaming'].value) + 'Warp.nii.gz']
 
         if self.p['affineIterations']:
-            execution['port']['affine_list'] = [str(self.p['outputNaming'].value) + 'Affine.txt']
+            execution['port']['affine_list'] = \
+                [str(self.p['outputNaming'].value) + 'Affine.txt']
 
-        execution['port']['moving_image'] = self.p['imageMetrics'].value[0].p['moving_image'].value
+        execution['port']['moving_image'] = \
+            self.p['imageMetrics'].value[0].p['moving_image'].value
 
         return execution
 
@@ -504,11 +544,15 @@ class ants_reslice(generic_wrapper):
         'dimension': value_parameter('dimension', 2),
         'moving_image': filename_parameter('moving_image', None),
         'output_image': filename_parameter('output_image', None),
-        'reference_image': filename_parameter('reference_image', None, str_template='-R {_value}'),
+        'reference_image': filename_parameter('reference_image', None,
+                                              str_template='-R {_value}'),
         'useNN': switch_parameter('use-NN', None, str_template='--{_name}'),
-        'useBspline': switch_parameter('use-BSpline', None, str_template='--{_name}'),
-        'deformable_list': list_parameter('deformable_list', [], str_template='{_list}'),
-        'affine_list': list_parameter('affine_list', [], str_template='{_list}')
+        'useBspline': switch_parameter('use-BSpline', None,
+                                       str_template='--{_name}'),
+        'deformable_list': list_parameter('deformable_list', [],
+                                          str_template='{_list}'),
+        'affine_list': list_parameter('affine_list', [],
+                                      str_template='{_list}')
     }
 
     _io_pass = {
@@ -517,7 +561,7 @@ class ants_reslice(generic_wrapper):
     }
 
 
-class ants_intensity_meric(generic_wrapper):
+class ants_intensity_metric(generic_wrapper):
     """
     A wrapper for ANTS intensity metric syntax. Note that this wrapper does not
     support point set estimation image-to-image metrics.
@@ -541,40 +585,40 @@ class ants_intensity_meric(generic_wrapper):
     :param parameter: Metric-specific parameter. Default is 4.
     :type parameter: int
 
-    >>> ants_intensity_meric
-    <class 'possum.pos_wrappers.ants_intensity_meric'>
+    >>> ants_intensity_metric
+    <class 'possum.pos_wrappers.ants_intensity_metric'>
 
-    >>> ants_intensity_meric() #doctest: +ELLIPSIS
-    <possum.pos_wrappers.ants_intensity_meric object at 0x...>
+    >>> ants_intensity_metric() #doctest: +ELLIPSIS
+    <possum.pos_wrappers.ants_intensity_metric object at 0x...>
 
-    >>> print ants_intensity_meric()
+    >>> print ants_intensity_metric()
     -m CC[,,1,4]
 
-    >>> p=ants_intensity_meric(fixed_image='fixed.nii.gz',moving_image='moving.nii.gz')
+    >>> p=ants_intensity_metric(fixed_image='fixed.nii.gz',moving_image='moving.nii.gz')
     >>> print p
     -m CC[fixed.nii.gz,moving.nii.gz,1,4]
 
-    >>> print ants_intensity_meric(fixed_image='fixed.nii.gz',moving_image='moving.nii.gz',metric="XXX")
+    >>> print ants_intensity_metric(fixed_image='fixed.nii.gz',moving_image='moving.nii.gz',metric="XXX")
     -m XXX[fixed.nii.gz,moving.nii.gz,1,4]
 
-    >>> p=ants_intensity_meric(fixed_image='fixed.nii.gz',moving_image='moving.nii.gz')
+    >>> p=ants_intensity_metric(fixed_image='fixed.nii.gz',moving_image='moving.nii.gz')
     >>> p #doctest: +ELLIPSIS
-    <possum.pos_wrappers.ants_intensity_meric object at 0x...>
+    <possum.pos_wrappers.ants_intensity_metric object at 0x...>
     >>> print p
     -m CC[fixed.nii.gz,moving.nii.gz,1,4]
 
-    >>> print ants_intensity_meric._parameters['parameter']
+    >>> print ants_intensity_metric._parameters['parameter']
     4
-    >>> print ants_intensity_meric._parameters['weight']
+    >>> print ants_intensity_metric._parameters['weight']
     1
-    >>> print ants_intensity_meric._parameters['moving_image']
+    >>> print ants_intensity_metric._parameters['moving_image']
     <BLANKLINE>
 
     >>> p.value
     '-m CC[fixed.nii.gz,moving.nii.gz,1,4]'
 
     >>> p.updateParameters({"weight":0.5}) #doctest: +ELLIPSIS
-    <possum.pos_wrappers.ants_intensity_meric object at 0x...>
+    <possum.pos_wrappers.ants_intensity_metric object at 0x...>
 
     >>> p.updateParameters({"parameter_that_does_not_exist":0.5})
     Traceback (most recent call last):
@@ -719,8 +763,11 @@ class ants_point_set_estimation_metric(generic_wrapper):
         'moving_points': filename_parameter('moving_points', None),
         'weight': value_parameter('weight', 1),
         'point_set_percentage': value_parameter('point_set_percentage', 1.0),
-        'point_set_sigma': value_parameter('point_set_sigma', None,  str_template=',{_value}'),
-        'boundary_points_only': boolean_parameter('boundary_points_only', False, str_template=',{_value}'),
+        'point_set_sigma': value_parameter('point_set_sigma', None,
+                                           str_template=',{_value}'),
+        'boundary_points_only':
+            boolean_parameter('boundary_points_only', False,
+                              str_template=',{_value}'),
     }
 
     def _get_value(self):
@@ -1855,9 +1902,16 @@ class align_by_center_of_gravity(generic_wrapper):
     _template = """pos_align_by_moments {fixed_image} {moving_image} {output_transformation}"""
 
     _parameters = {
-        'fixed_image': pos_parameters.filename_parameter('fixed_image', None, str_template="--fixed-image {_value}"),
-        'moving_image': pos_parameters.filename_parameter('moving_image', None, str_template="--moving-image {_value}"),
-        'output_transformation': pos_parameters.filename_parameter('output_transformation', None, str_template="--transformation-filename {_value}"),
+        'fixed_image':
+            pos_parameters.filename_parameter(
+                'fixed_image', None, str_template="--fixed-image {_value}"),
+        'moving_image':
+            pos_parameters.filename_parameter(
+                'moving_image', None, str_template="--moving-image {_value}"),
+        'output_transformation':
+            pos_parameters.filename_parameter(
+                'output_transformation', None,
+                str_template="--transformation-filename {_value}"),
     }
 
 

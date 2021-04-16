@@ -227,9 +227,10 @@ class worksheet_manager(object):
     """
 
     _metadata_to_load = ['image_index', 'image_name', 'mask_name',
-        'image_resolution', 'reference_image_index', 'reference_coordinate',
-        'replacement_index', 'distortion', 'process_resolution', 'rotation',
-        'horizontal_flip', 'vertical_flip']
+                         'image_resolution', 'reference_image_index',
+                         'reference_coordinate', 'replacement_index',
+                         'distortion', 'process_resolution', 'rotation',
+                         'horizontal_flip', 'vertical_flip']
 
     _metadata_to_establish = ['file_size', 'image_hash', 'image_size']
 
@@ -306,7 +307,8 @@ class worksheet_manager(object):
             self._atlas_plate_spacing = \
                 self._worksheet.cell_value(*_ATLAS_PLATE_SPACING)
             self._atlas_plate_size = \
-                map(int, self._worksheet.cell_value(*_ATLAS_PLATE_EXTENT).strip().split("x"))
+                map(int, self._worksheet.cell_value(
+                    *_ATLAS_PLATE_EXTENT).strip().split("x"))
 
     def load_metadata_from_workbook(self):
         """
@@ -375,7 +377,7 @@ class worksheet_manager(object):
 
         # Now, calculate the offset from the initial origin for each of the
         # images. This is only possible after calculating the padding.
-        for (index, (key, image)) in enumerate(sorted(self._images.iteritems())):
+        for (index, (key, image)) in enumerate(sorted(self._images.items())):
             offset_x = float(image.padded_size[0] - image.image_size[0]) *\
                        image.image_resolution / 2.0
             offset_y = float(image.padded_size[1] - image.image_size[1]) *\
@@ -517,4 +519,4 @@ class worksheet_manager(object):
 
 if __name__ == "__main__":
     import doctest
-    print doctest.testmod()
+    print(doctest.testmod())

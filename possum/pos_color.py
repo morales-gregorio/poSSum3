@@ -177,7 +177,7 @@ class pos_color(object):
     True
     """
 
-    def __init__(self, (r, g, b)):
+    def __init__(self, rgb):
         """
         :param r: Red component of given color.
         :type r:  float from 0 to 1
@@ -193,12 +193,12 @@ class pos_color(object):
         # Just store the color components. Yes, it's just so simple.
         # Note that no argument validation is performed. Your are responsible
         # for what you pass to the class
-        self.r = r
-        self.g = g
-        self.b = b
+        self.r = rgb[0]
+        self.g = rgb[1]
+        self.b = rgb[2]
 
     @classmethod
-    def from_int(pos_color, (rInt, bInt, gInt)):
+    def from_int(pos_color, rgbInt):
         """
         Create pos_color objects from tuple of integers from (0 to 255) instead
         of floats.
@@ -227,7 +227,7 @@ class pos_color(object):
         False
         """
 
-        (r, g, b) = int_colour_to_float((rInt, bInt, gInt))
+        (r, g, b) = int_colour_to_float(rgbInt)
         return pos_color((r, g, b))
 
     @classmethod
@@ -267,8 +267,8 @@ class pos_color(object):
             colorstring = colorstring[1:]
 
         if len(colorstring) != 6:
-            raise ValueError, \
-                "input #%s is not in #RRGGBB format" % colorstring
+            raise(ValueError, \
+                "input #%s is not in #RRGGBB format" % colorstring)
 
         # Extract individual color components and convert them to integers.
         r, g, b = colorstring[:2], colorstring[2:4], colorstring[4:]
@@ -277,7 +277,7 @@ class pos_color(object):
         return cls.from_int((r, g, b))
 
     @classmethod
-    def from_hsv(cls, (h, s, v)):
+    def from_hsv(cls, hsv):
         """
         Create color object from hue, saturation, value tuple.
 
@@ -290,7 +290,7 @@ class pos_color(object):
         Traceback (most recent call last):
         ValueError: too many values to unpack
         """
-        return cls(colorsys.hsv_to_rgb(h, s, v))
+        return cls(colorsys.hsv_to_rgb(*hsv))
 
     def __str__(self):
         return str(self())
@@ -322,6 +322,7 @@ class pos_color(object):
     c = property(_getValues)
     gnuplot = property(_get_gnuplot_color_format)
 
+
 if __name__ == 'possum.pos_color':
     import doctest
-    print doctest.testmod()
+    print(doctest.testmod())

@@ -10,6 +10,7 @@ import logging
 
 # Dictionary below copied from (Sun Apr  7 14:04:28 CEST 2013)
 # http://code.google.com/p/medipy/source/browse/lib/medipy/itk/types.py?name=default&r=0da35e1099e5947151dee239f7a09f405f4e105c
+"""
 io_component_type_to_type = {
         itk.ImageIOBase.UCHAR : itk.UC,
         itk.ImageIOBase.CHAR : itk.SC,
@@ -22,29 +23,30 @@ io_component_type_to_type = {
         itk.ImageIOBase.FLOAT : itk.F,
         itk.ImageIOBase.DOUBLE : itk.D,
         }
+"""
 
 # And this is my own invention: a dictionary that converts tuple of specific
 # image parameters into itk image type. We all love ITK heavy templated code
 # style!
 io_component_string_name_to_image_type = {
-        ('scalar', 'short', 3) : itk.Image.SS3,
-        ('scalar', 'unsigned_short', 3) : itk.Image.US3,
-        ('scalar', 'unsigned_char', 3) : itk.Image.UC3,
-        ('scalar', 'float', 3) : itk.Image.F3,
-        ('scalar', 'short', 2) : itk.Image.SS2,
-        ('scalar', 'unsigned_short', 2) : itk.Image.US2,
-        ('vector', 'float', 3) : itk.Image.VF33,
-        ('vector', 'double', 3) : itk.Image.VD33,
-        ('vector', 'float', 2) : itk.Image.VF22,
-        ('vector', 'double', 2) : itk.Image.VD22,
-        ('scalar', 'unsigned_char', 2) : itk.Image.UC2,
-        ('scalar', 'float', 2) : itk.Image.F2,
-        ('scalar', 'double', 3) : itk.Image.D3,
-        ('scalar', 'double', 2) : itk.Image.D2,
-        ('rgb', 'unsigned_char', 2) : itk.Image.RGBUC2,
-        ('rgb', 'unsigned_char', 3) : itk.Image.RGBUC3,
-        ('vector', 'unsigned_char', 3) : itk.Image.RGBUC3,
-        ('vector', 'unsigned_char', 2) : itk.Image.RGBUC2
+        ('scalar', 'short', 3): itk.Image.SS3,
+        ('scalar', 'unsigned_short', 3): itk.Image.US3,
+        ('scalar', 'unsigned_char', 3): itk.Image.UC3,
+        ('scalar', 'float', 3): itk.Image.F3,
+        ('scalar', 'short', 2): itk.Image.SS2,
+        ('scalar', 'unsigned_short', 2): itk.Image.US2,
+        ('vector', 'float', 3): itk.Image.VF33,
+        ('vector', 'double', 3): itk.Image.VD33,
+        ('vector', 'float', 2): itk.Image.VF22,
+        ('vector', 'double', 2): itk.Image.VD22,
+        ('scalar', 'unsigned_char', 2): itk.Image.UC2,
+        ('scalar', 'float', 2): itk.Image.F2,
+        ('scalar', 'double', 3): itk.Image.D3,
+        ('scalar', 'double', 2): itk.Image.D2,
+        ('rgb', 'unsigned_char', 2): itk.Image.RGBUC2,
+        ('rgb', 'unsigned_char', 3): itk.Image.RGBUC3,
+        ('vector', 'unsigned_char', 3): itk.Image.RGBUC3,
+        ('vector', 'unsigned_char', 2): itk.Image.RGBUC2
         }
 
 # Here we define mapping which allows us to quickly map an
@@ -52,7 +54,7 @@ io_component_string_name_to_image_type = {
 # This turns out to be very usefull, believe me.
 io_image_type_to_component_string_name = \
      dict((io_component_string_name_to_image_type[k], k)
-        for k in io_component_string_name_to_image_type)
+          for k in io_component_string_name_to_image_type)
 
 
 # Another quite clever dictionary. This one converts given image type to the
@@ -71,7 +73,7 @@ types_reduced_dimensions = {
 # This time a dictionary for stacking slices (a reverse of
 # types_reduced_dimensions dict):
 types_increased_dimensions = dict((types_reduced_dimensions[k], k)
-                               for k in types_reduced_dimensions)
+                                  for k in types_reduced_dimensions)
 
 
 def get_image_region(image_dim, crop_index, crop_size):
@@ -79,10 +81,10 @@ def get_image_region(image_dim, crop_index, crop_size):
     This functions makes `itk.ImageRegion` out of index and size tuples of
     aproperiate size. What is an image region? According to itk reference:
 
-    | ImageRegion is an class that represents some structured portion or piece of
-    | an Image. The ImageRegion is represented with an index and a size in each
-    | of the n-dimensions of the image. (The index is the corner of the image,
-    | the size is the lengths of the image in each of the topological
+    | ImageRegion is an class that represents some structured portion or piece
+    | of an Image. The ImageRegion is represented with an index and a size in
+    | each of the n-dimensions of the image. (The index is the corner of the
+    | image, the size is the lengths of the image in each of the topological
     | directions.)
 
     Don't believe? Check it out:
@@ -132,8 +134,8 @@ def autodetect_file_type(image_path, ret_itk=True):
     # (this function a pythonized code of an itk example from
     # http://www.itk.org/Wiki/ITK/Examples/IO/ReadUnknownImageType
     # Cheers!
-    image_io = itk.ImageIOFactory.CreateImageIO(image_path,\
-                                itk.ImageIOFactory.ReadMode)
+    image_io = itk.ImageIOFactory.CreateImageIO(
+        image_path, itk.CommonEnums.IOFileMode_ReadMode)
     image_io.SetFileName(image_path)
     image_io.ReadImageInformation()
 
@@ -339,7 +341,6 @@ class pos_itk_image_info(object):
     _DIMENSION_DEPENDENT_TYPES = {
         "Dimensions": int, "Origin": float, "Spacing": float}
 
-
     def __init__(self, image_path):
         """
         :param image_path: Name of the image file to be analyzed.
@@ -350,8 +351,8 @@ class pos_itk_image_info(object):
         self._logger.debug("Reading %s file header details." % image_path)
         self._logger.debug("Setting up the ITK ImageIO object...")
 
-        self._image_io = itk.ImageIOFactory.CreateImageIO(image_path, \
-                                    itk.ImageIOFactory.ReadMode)
+        self._image_io = itk.ImageIOFactory.CreateImageIO(
+            image_path, itk.ImageIOFactory.ReadMode)
         self._image_io.SetFileName(image_path)
 
         self._logger.debug("Reading image information.")
@@ -429,8 +430,7 @@ class pos_itk_image_info(object):
             # This is where this is done:
             type_ = self._DIMENSION_DEPENDENT_TYPES.get(prop, None)
             if type_:
-                self._logger.debug("Mapping %s to %s.",
-                                    attr_name, str(type_))
+                self._logger.debug("Mapping %s to %s.", attr_name, str(type_))
                 attr_value = map(type_, attr_value)
 
             setattr(self, prop, attr_value)
@@ -473,7 +473,7 @@ def resample_image_filter(input_image, scaling_factor, default_value=0,
     # Declare an image interpolation function. The function is by default a
     # linear interpolation function, however it my be switched to any other
     # image interpolation function.
-    if interpolation.upper() in ['NN', 'NEAREST', 'NEARESTNEIGHBOR','NN']:
+    if interpolation.upper() in ['NN', 'NEAREST', 'NEARESTNEIGHBOR', 'NN']:
         interpolator = \
             itk.NearestNeighborInterpolateImageFunction[input_image, itk.D].New()
 
@@ -481,9 +481,8 @@ def resample_image_filter(input_image, scaling_factor, default_value=0,
         interpolator = \
             itk.LinearInterpolateImageFunction[input_image, itk.D].New()
 
-    logger.debug("   + Selected image interpolation function: %s", \
+    logger.debug("   + Selected image interpolation function: %s",
                  str(itk.LinearInterpolateImageFunction))
-
 
     # Declare resampling filter and initialize the filter with two dimensional
     # identity transformation as well as image interpolation function
@@ -533,7 +532,7 @@ def resample_image_filter(input_image, scaling_factor, default_value=0,
     logger.info("   + Computed final origin: %s", str(origin_post))
 
     # Set the image sizes, spacing, origins and image direction matrix:
-    resample_filter.SetSize(map(int,post_size))
+    resample_filter.SetSize(map(int, post_size))
     resample_filter.SetOutputSpacing(post_spacing)
     resample_filter.SetOutputOrigin(origin_post)
     resample_filter.SetOutputDirection(input_image.GetDirection())
@@ -576,23 +575,20 @@ def get_itk_direction_matrix(code):
     dir_matrix = itk.vnl_matrix_fixed.D_3_3()
     dir_matrix.set_identity()
 
-    rai_codes = [["R","L"], ["A","P"], ["I","S"]]
+    rai_codes = [["R", "L"], ["A", "P"], ["I", "S"]]
 
     # The code below is awful! But sorry, that is what happens, if you use itk
     # from python!. Anyway, the code below created direction matrix based on
     # provided RAI code.
     for i in range(3):
-        matched = False
         for j in range(3):
             for k in range(2):
                 if rai[i] == rai_codes[j][k]:
-                    m = [-1.0, 1.0][k==0]
-                    dir_matrix.set(0, i, eye_matrix.get(j,0) * m)
-                    dir_matrix.set(1, i, eye_matrix.get(j,1) * m)
-                    dir_matrix.set(2, i, eye_matrix.get(j,2) * m)
-
+                    m = [-1.0, 1.0][k == 0]
+                    dir_matrix.set(0, i, eye_matrix.get(j, 0) * m)
+                    dir_matrix.set(1, i, eye_matrix.get(j, 1) * m)
+                    dir_matrix.set(2, i, eye_matrix.get(j, 2) * m)
                     rai_codes[j][0] = rai_codes[j][1] = 'X'
-                    matched = True
 
     return itk.Matrix.D33(dir_matrix)
 
@@ -630,9 +626,9 @@ def itk_get_transformation_from_file(transformation_filename):
 
     # Finally, print all the parameters as well as the transformation type
     logger.info("Detected transformation type: %s",
-                 transformation.GetTransformTypeAsString())
+                transformation.GetTransformTypeAsString())
     logger.info("Size of the parameters vector: %d",
-                 parameters.size())
+                parameters.size())
 
     for i in range(parameters.size()):
         logger.info("Printing parameter %d: %d", i, parameters.get(i))
@@ -655,10 +651,10 @@ def get_cast_image_type_from_string(target_image_type, dim=3):
     :returns: `itkImage`
 
     """
-    types = {'uchar' : ('scalar', 'unsigned_char', dim),
+    types = {'uchar': ('scalar', 'unsigned_char', dim),
              'short':  ('scalar', 'short', dim),
              'ushort': ('scalar', 'unsigned_short', dim),
-             'float' : ('scalar', 'float', dim),
+             'float': ('scalar', 'float', dim),
              'double': ('scalar', 'double', dim)}
     return io_component_string_name_to_image_type[types[target_image_type]]
 
@@ -673,7 +669,7 @@ def print_vnl_matrix(matrix):
 
     for i in range(matrix.rows()):
         row = map(lambda x: matrix.get(i, x), range(matrix.cols()))
-        print "[ " + " ".map(str, row) + " ]"
+        print("[ " + " ".map(str, row) + " ]")
 
 
 def reorder_volume(input_image, reorder_mapping, slicing_plane):
@@ -756,8 +752,8 @@ def reorder_volume(input_image, reorder_mapping, slicing_plane):
         input_region_size[slicing_plane] = 1
 
         # Compose input region origin and size into itk region.
-        input_region = get_image_region(ndim,
-                input_region_origin, input_region_size)
+        input_region = get_image_region(
+            ndim, input_region_origin, input_region_size)
 
         # The output region index is the place where the given slice will be
         # located. To define the output region we use the provided lookup
@@ -792,17 +788,19 @@ def itk_is_point_inside_region(image, point, region=None):
 
     :param point: Point in physical coordinates to be tested. `Iterable` of two
         or three float values (depending on the dimensionality of the provided
-        image.  The point is expected to be provided in physical coordinates using
-        float numbers.  Explicit float conversion is suggested just in case.
+        image.  The point is expected to be provided in physical coordinates
+        using float numbers.  Explicit float conversion is suggested just in
+        case.
     :type point: An iterable compatibile with the `itk.Index` class (`list`,
         `tuple`, or other `iterable`).
 
     :param region: If the `region` is provided the `point` is tested against
-        the provided `region` instead of the provided `image`. The provided regions
-        has to match the `point` in terms of dimensionality. An instance of
-        `itk.ImageRegion` can be obtained using the `pos_itk_core.get_image_region`
-        function. I am unable to tell if the `region` has to be within the largest
-        possible region of the `image` but I think it would be better if it was.
+        the provided `region` instead of the provided `image`. The provided
+        regions has to match the `point` in terms of dimensionality. An
+        `instance of itk.ImageRegion` can be obtained using the
+        `pos_itk_core.get_image_region` function. I am unable to tell if the
+        `region` has to be within the largest possible region of the `image`
+        but I think it would be better if it was.
     :type region: `itk.ImageRegion`
 
     :return: `True` when the point is within the image or within the provided
@@ -1008,8 +1006,8 @@ def generate_empty_image(reference_image, default_value, type_=None):
     return output_canvas
 
 
-#if __name__ == 'possum.pos_itk_core':
 if __name__ == '__main__':
     import doctest
-    print doctest.testfile("../test/test_check_itk_build/pos_check_itk_build.txt")
-    print doctest.testmod(verbose=True)
+    print(doctest.testfile(
+        "../test/test_check_itk_build/pos_check_itk_build.txt"))
+    print(doctest.testmod(verbose=True))

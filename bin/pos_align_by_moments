@@ -170,22 +170,23 @@ class align_by_centre_of_gravity(enclosed_workflow):
 
 
         parser.add_option('--fixed-image', '-f', dest='fixed_image',
-            type='str', default=None,
-            help='Fixed image (target of the alignment).')
+                          type='str', default=None,
+                          help='Fixed image (target of the alignment).')
         parser.add_option('--moving-image', '-m', dest='moving_image',
-            type='str', default=None,
-            help='Moving image image (image to be aligned).')
+                          type='str', default=None,
+                          help='Moving image image (image to be aligned).')
         parser.add_option('--output-image', '-o', dest='output_image',
-            type='str', default=None,
-            help=r('Optional argument. Name of the \
-            output resliced moving image.'))
+                          type='str', default=None,
+                          help=r('Optional argument. Name of the \
+                          output resliced moving image.'))
         parser.add_option('--transformation-filename', '-t',
-            dest='transformation_filename', type='str',
-            default=None,
-            help='Stores output transformation in a file.')
+                          dest='transformation_filename', type='str',
+                          default=None,
+                          help='Stores output transformation in a file.')
 
         (options, args) = parser.parse_args()
         return (options, args)
+
 
 if __name__ == '__main__':
     options, args = align_by_centre_of_gravity.parseArgs()

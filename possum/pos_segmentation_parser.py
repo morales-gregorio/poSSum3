@@ -1,5 +1,5 @@
 import csv
-from pos_color import pos_color
+from possum.pos_color import pos_color
 
 
 __author__ = "Konrad Solarz, Piotr Majka"
@@ -9,8 +9,8 @@ __email__ = "pmajka@nencki.gov.pl"
 
 class snap_label(object):
 
-    def __init__(self, idx, (r, g, b), transparency, label_visibility,
-            mesh_visibility, description):
+    def __init__(self, idx, rgb, transparency, label_visibility,
+                 mesh_visibility, description):
         """
         All parameters are required.
 
@@ -149,7 +149,7 @@ class snap_label(object):
 
         self.idx = int(idx)
 
-        self.color = (r, g, b)
+        self.color = rgb
         self.transparency = transparency
         self.label_visibility = label_visibility
         self.mesh_visibility = mesh_visibility
@@ -196,7 +196,7 @@ class snap_label(object):
 
         # And then generate the label object
         label = snap_label(idx, (r, g, b), transparency,
-                label_visibility, mesh_visibility, description)
+                           label_visibility, mesh_visibility, description)
         return label
 
     def __str__(self):
@@ -214,7 +214,7 @@ class snap_label(object):
     def _get_color(self):
         return self._color.rgb
 
-    def _set_color(self, (r, g, b)):
+    def _set_color(self, rgb):
         """
         :param r: Red color intensity in RGB color model
         :type int: int
@@ -225,7 +225,7 @@ class snap_label(object):
         :param b: Blue color intensity in RGB color model
         :type int: int
         """
-        self._color = pos_color.from_int((r, g, b))
+        self._color = pos_color.from_int(rgb)
 
     def _get_idx(self):
         return self._idx
@@ -265,8 +265,10 @@ class snap_label(object):
     idx = property(_get_idx, _set_idx, None)
     color = property(_get_color, _set_color, None)
     transparency = property(_get_transparency, _set_transparency, None)
-    label_visibility = property(_get_label_visibility, _set_label_visibility, None)
-    mesh_visibility = property(_get_mesh_visibility, _set_mesh_visibility, None)
+    label_visibility = property(_get_label_visibility,
+                                _set_label_visibility, None)
+    mesh_visibility = property(_get_mesh_visibility,
+                               _set_mesh_visibility, None)
     description = property(_get_description, _set_description, None)
 
 
@@ -317,7 +319,7 @@ class snap_label_description(object):
         >>> ld #doctest: +ELLIPSIS
         <possum.pos_segmentation_parser.snap_label_description object at 0x...>
 
-        >>> list(ld.iteritems())
+        >>> list(ld.items())
         []
 
         >>> str(ld) == ITKSNAP_DESCRIPTION_FILE_HEADER + "\\n"
@@ -356,13 +358,13 @@ class snap_label_description(object):
         >>> len(ld.items()) == 11
         True
 
-        >>> len(list(ld.iteritems())) == 11
+        >>> len(list(ld.items())) == 11
         True
 
-        >>> len(list(ld.itervalues())) == 11
+        >>> len(list(ld.values())) == 11
         True
 
-        >>> len(list(ld.iterkeys())) == 11
+        >>> len(list(ld.keys())) == 11
         True
 
         >>> str(ld[2])
@@ -406,7 +408,7 @@ class snap_label_description(object):
     def __str__(self):
         labels = sorted(self.values(), key=lambda x: x.idx)
         return ITKSNAP_DESCRIPTION_FILE_HEADER + "\n" + \
-               "\n".join(map(str, labels))
+        "\n".join(map(str, labels))
 
     def __setitem__(self, key, value):
         assert key == value.idx, \
@@ -428,20 +430,17 @@ class snap_label_description(object):
     def keys(self):
         return self._labels.keys()
 
-    def items(self):
-        return self._labels.items()
-
     def values(self):
         return self._labels.values()
 
     def itervalues(self):
-        return self._labels.itervalues()
+        return self._labels.values()
 
     def iterkeys(self):
-        return self._labels.iterkeys()
+        return self._labels.keys()
 
-    def iteritems(self):
-        return self._labels.iteritems()
+    def items(self):
+        return self._labels.items()
 
     @classmethod
     def _read_3dbar_format(cls, filename):
@@ -493,7 +492,7 @@ class snap_label_description(object):
 
         for row in reader:
             # filtering out empty strings returned by csv.reader object
-            row = filter(None, row)
+            row = list(filter(None, row))
             label = snap_label.from_row(row)
             list_of_labels.append(label)
 
@@ -535,4 +534,4 @@ class snap_label_description(object):
 if __name__ == 'possum.pos_segmentation_parser':
 
     import doctest
-    print doctest.testmod()
+    print(doctest.testmod())

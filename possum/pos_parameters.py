@@ -42,7 +42,7 @@ class generic_parameter(object):
         Traceback (most recent call last):
         NotImplementedError: Reimplement this method in a subclass
         """
-        raise NotImplementedError, "Reimplement this method in a subclass"
+        raise(NotImplementedError, "Reimplement this method in a subclass")
 
     def __str__(self):
         return self._serialize()
@@ -57,7 +57,7 @@ class generic_parameter(object):
         Traceback (most recent call last):
         NotImplementedError: Reimplement this method in a subclass
         """
-        raise NotImplementedError, "Reimplement this method in a subclass"
+        raise(NotImplementedError, "Reimplement this method in a subclass")
 
     def _set_value(self, value):
         self._value = value
@@ -170,7 +170,8 @@ class string_parameter(generic_parameter):
     >>> print p
     a_value
 
-    >>> p=string_parameter('a_name', value="a_value", str_template="__{_value}__ __{_name}__")
+    >>> p=string_parameter('a_name', value="a_value",
+                           str_template="__{_value}__ __{_name}__")
     >>> print p
     __a_value__ __a_name__
     """
@@ -394,6 +395,16 @@ class ants_regularization_parameter(ants_specific_parameter):
     """
     _switch = '-r'
 
+    def _serialize(self):
+        meaning = self.value[0]
+        values = self.value[1]
+
+        retStr = " " + self._switch + " " + meaning + "["
+        retStr += ", ".join(map(str, values))
+        retStr += "] "
+
+        return retStr
+
 
 class filename(generic_parameter):
     """
@@ -562,7 +573,7 @@ class filename(generic_parameter):
         """
 
         generic_parameter.__init__(self, name, value=value,
-                 str_template=str_template)
+                                   str_template=str_template)
 
         self.job_dir = job_dir
         self.work_dir = work_dir
@@ -647,6 +658,7 @@ class filename(generic_parameter):
 
     base_dir = property(_get_base_dir, _set_base_dir)
     """ Returns / sets base_dir """
+
 
 if __name__ == 'possum.pos_parameters':
     import doctest

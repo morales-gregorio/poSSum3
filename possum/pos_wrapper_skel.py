@@ -12,11 +12,12 @@ import datetime
 import logging
 from optparse import OptionParser, OptionGroup
 
-import pos_common
-import pos_wrappers
+from possum import pos_common
+from possum import pos_wrappers
 
 CONST_CMD_LINE_OPTIONS_OUTPUT_VOL_SETTINGS = "Output volumes settings"
 CONST_CMD_LINE_OPTIONS_GENERAL_SETTINGS = "General workflow settings"
+
 
 class generic_workflow(object):
     """
@@ -167,7 +168,7 @@ class generic_workflow(object):
         according to provided command line paramteres.
         """
         pos_common.setup_logging(self.options.log_filename,
-                      self.options.loglevel)
+                                 self.options.loglevel)
 
         logging.debug("Logging module initialized. Saving to: %s, Loglevel: %s",
                       self.options.log_filename, self.options.loglevel)
@@ -197,7 +198,8 @@ class generic_workflow(object):
         # cannot perform parallel computations.
         if not pos_common.which(self.__PARALLEL_EXECUTABLE_NAME) and\
            self.options.cpus > 1:
-            self._logger.error("Parallel execution was selected but GNU parallel is not available!")
+            self._logger.error("Parallel execution was selected but GNU"
+                               "parallel is not available!")
             sys.exit(1)
 
         # Job ID is another value for accointing and managing. Oppoosite to the
@@ -205,7 +207,8 @@ class generic_workflow(object):
         # is generated automatically based on current data and PID.
         if self.options.job_id is None:
             self.options.job_id = self.__class__.__name__
-            self.options.job_id += datetime.datetime.now().strftime("_%Y-%m-%d-%H_%M-%S_")
+            self.options.job_id += datetime.datetime.now().strftime(
+                "_%Y-%m-%d-%H_%M-%S_")
             self.options.job_id += str(os.getpid())
 
     def _overrideDefaults(self):
@@ -259,13 +262,14 @@ class generic_workflow(object):
         self._ensureDir(self.options.workdir)
 
         # Assign path to work dir to all templates:
-        for k, v in self.f.iteritems():
+        for k, v in self.f.items():
             v.job_dir = self.options.workdir
 
         # And, as a last point, just create the directories.
         dirs_to_create = list(set(map(lambda v: v.base_dir,
-                                      self.f.itervalues())))
-        map(self._ensureDir, dirs_to_create)
+                                      self.f.values())))
+
+        [self._ensureDir(dir) for dir in dirs_to_create]
 
     def _ensureDir(self, path):
         """
@@ -350,7 +354,7 @@ class generic_workflow(object):
             return stdout, stderr
 
         else:
-            print "\n".join(map(str, commands))
+            print("\n".join(map(str, commands)))
 
     def launch(self):
         """
@@ -359,7 +363,7 @@ class generic_workflow(object):
         `lauch` method has to invoke _post_launch()`_pre_launch()` and
         `_post_launch()` as they are required to run the workflow properly.
         """
-        raise NotImplementedError, "Virtual method executed."
+        raise(NotImplementedError, "Virtual method executed.")
 
     def _pre_launch(self):
         """
@@ -408,7 +412,7 @@ class generic_workflow(object):
         if not self.options.dry_run:
             compress_command()
         else:
-            print compress_command
+            print(compress_command)
 
     def _clean_up(self):
         """
@@ -621,6 +625,7 @@ class enclosed_workflow(generic_workflow):
             parser.option_groups.remove(option_grp)
 
         return parser
+
 
 if __name__ == 'possum.pos_wrapper_skel':
     import doctest

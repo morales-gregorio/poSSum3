@@ -300,7 +300,7 @@ class sequential_alignment(output_volume_workflow):
         if self.options.enable_moments_alignment:
             commands = map(lambda x: self._get_cog_alignment(*x),
                 partial_transformation_pairs)
-            commands = filter(None, commands)
+            commands = list(filter(None, commands))
 
             self._logger.info("Executing the centre of gravity transforms.")
             self.execute(commands)
@@ -308,7 +308,7 @@ class sequential_alignment(output_volume_workflow):
         # Calculate affine transformation for each slices pair
         commands = map(lambda x: self._get_partial_transform(*x),
             partial_transformation_pairs)
-        commands = filter(None, commands)
+        commands = list(filter(None, commands))
         self._logger.info("Executing the transformation commands.")
         self.execute(commands)
 
@@ -482,7 +482,7 @@ class sequential_alignment(output_volume_workflow):
 
         # Define the image-to-image metric.
         metrics = []
-        metric = pos_wrappers.ants_intensity_meric(
+        metric = pos_wrappers.ants_intensity_metric(
             fixed_image=self.f['src_gray'](idx=fixed_slice_index),
             moving_image=self.f['src_gray'](idx=moving_slice_index),
             metric=similarity_metric,
@@ -578,7 +578,7 @@ class sequential_alignment(output_volume_workflow):
         # to slice skipping (higher)
         l = self.options.graph_edge_lambda
 
-        for (mdx, fdx), s in simmilarity.iteritems():
+        for (mdx, fdx), s in simmilarity.items():
             w = (1.0 + s) * abs(mdx - fdx) * (1.0 + l) ** (abs(mdx - fdx))
             graph_connections.append((fdx, mdx, w))
 
@@ -607,7 +607,7 @@ class sequential_alignment(output_volume_workflow):
 
         # Also, save the individual similarity metrics:
         simm_fh = open(self.f['similarity'](sign=self.signature), 'w')
-        for (mdx, fdx), s in sorted(simmilarity.iteritems()):
+        for (mdx, fdx), s in sorted(simmilarity.items()):
             simm_fh.write("%d %d %f\n" % (mdx, fdx, s))
         simm_fh.close()
 

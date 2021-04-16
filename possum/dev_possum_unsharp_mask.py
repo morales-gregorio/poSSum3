@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 import itk
-from sys import argv
-from optparse import OptionParser, OptionGroup
+# from sys import argv
+# from optparse import OptionParser, OptionGroup
 
 
 class unsharpMaskImageFilter():

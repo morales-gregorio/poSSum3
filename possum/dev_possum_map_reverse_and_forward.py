@@ -5,8 +5,6 @@ import os
 import sys
 import itk
 
-from optparse import OptionGroup
-
 from possum.pos_wrapper_skel import enclosed_workflow
 from possum.pos_common import r
 from possum import pos_itk_transforms
@@ -200,15 +198,15 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
         type_attr_name = "_" + attr_base + "_type"
 
         setattr(self, image_attr_name,
-            pos_itk_transforms.read_itk_image(filename))
+                pos_itk_transforms.read_itk_image(filename))
         setattr(self, type_attr_name,
-            pos_itk_core.autodetect_file_type(filename))
+                pos_itk_core.autodetect_file_type(filename))
 
         # We read and report the number of components of the image.
         numbers_of_components = \
             getattr(self, image_attr_name).GetNumberOfComponentsPerPixel()
         self._logger.info("Number of components of the image %s is: %d.",
-            filename, numbers_of_components)
+                          filename, numbers_of_components)
 
     def _load_coregistration_transformation(self):
         """
@@ -243,12 +241,12 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
 
         # Iterate over all filenames beeing used it the whole workflow
         # and check if all of them exists.
-        filenames_to_check = map(lambda x: \
-          self.options.section_deformable_fwd_template% x, sections_range)
-        filenames_to_check += map(lambda x: \
-          self.options.section_deformable_inv_template % x, sections_range)
-        filenames_to_check += map(lambda x: \
-          self.options.section_affine_template % x, sections_range)
+        filenames_to_check = [self.options.section_deformable_fwd_template % x
+                              for x in sections_range]
+        filenames_to_check += [self.options.section_deformable_inv_template % x
+                               for x in sections_range]
+        filenames_to_check += [self.options.section_affine_template % x
+                               for x in sections_range]
 
         # Just go trought all the filenames and check if the files
         # exitst. If a files does not exist... well sorry...
@@ -281,7 +279,7 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
         # the processing.
         self._processing_type = \
             pos_itk_core.io_component_string_name_to_image_type[
-            C_INTERMEDIATE_SINGLE_COMPONENT_TYPEDEF]
+                C_INTERMEDIATE_SINGLE_COMPONENT_TYPEDEF]
 
         # Determine the number of components in the image to be processed.
         # Single component image is easy to process. Multichannel workflow
@@ -338,7 +336,7 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
         # initial data type the image was provided in.
         cast_filter = \
             itk.CastImageFilter[
-            (self._processing_type, self._component_type)].New()
+              (self._processing_type, self._component_type)].New()
         cast_filter.SetInput(processed_component)
         cast_filter.Update()
         processed_image = cast_filter.GetOutput()
@@ -390,11 +388,11 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
         for i in range(self._numbers_of_components):
 
             self._logger.debug("Starting processing channel %d of %d.",
-                i + 1, self._numbers_of_components)
+                               i + 1, self._numbers_of_components)
 
             extract_filter = \
                 itk.VectorIndexSelectionCastImageFilter[
-                self._moving_type, component_type].New()
+                    self._moving_type, component_type].New()
             extract_filter.SetIndex(i)
             extract_filter.SetInput(self._moving_image)
 
@@ -422,7 +420,7 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
             processed_components.append(writer_cast_filter.GetOutput())
 
             self._logger.debug("Finished processing channel %d of %d.",
-                i + 1, self._numbers_of_components)
+                               i + 1, self._numbers_of_components)
 
         # After iterating over all channels, compose the individual
         # components back into multichannel image.
@@ -490,16 +488,16 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
         # processed. The number of sections is determined based on the provided
         # slicing axis.
         sections_number = \
-            input_image.GetLargestPossibleRegion().GetSize()[\
-            self.options.slicing_axis]
+            input_image.GetLargestPossibleRegion().GetSize()[
+               self.options.slicing_axis]
         sections_range = \
             range(self.options.offset,
                   sections_number + self.options.offset)
 
         self._logger.info("Determined number of sections: %d.",
-            sections_number)
+                          sections_number)
         self._logger.info("Indexes of sections to be processed: %s.",
-            " ".join(map(str, sections_range)))
+                          " ".join(map(str, sections_range)))
         self._inspect_input_images(sections_range)
 
         # Nothing special going one, we process each section one
@@ -578,12 +576,12 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
         if interpolation_type == C_BSPLINE_INTERPOLATOR:
             interpolator_type = (image_to_interpolate, data_type, data_type)
             interpolator = \
-              self._interpolators[interpolation_type][interpolator_type].New()
+                self._interpolators[interpolation_type][interpolator_type].New()
             interpolator.SetSplineOrder(3)
         else:
             interpolator_type = (image_to_interpolate, data_type)
             interpolator = \
-              self._interpolators[interpolation_type][interpolator_type].New()
+                self._interpolators[interpolation_type][interpolator_type].New()
 
         return interpolator
 
@@ -616,7 +614,7 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
 
         extract_single_section = \
             itk.ExtractImageFilter[
-            (self._processing_type, self._section_type)].New()
+               (self._processing_type, self._section_type)].New()
         extract_single_section.SetExtractionRegion(input_region)
 
         extract_single_section.SetInput(section)
@@ -666,8 +664,8 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
 
         input_region = \
             pos_itk_core.get_image_region(ndim,
-                input_region_origin,
-                input_region_size)
+                                          input_region_origin,
+                                          input_region_size)
 
         return input_region
 
@@ -732,8 +730,8 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
 
         transforms = \
             pos_itk_transforms.itk_read_transformations_from_files(
-            [self.options.coregistration_affine,
-             self.options.coregistration_deformable_forward])
+                [self.options.coregistration_affine,
+                 self.options.coregistration_deformable_forward])
 
         transforms = [transforms[0], transforms[1]]
         return transforms
@@ -801,31 +799,36 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
             check the DOCSTRING of this class."""))
         parser.set_usage(usage_string)
 
-        parser.add_option('--input-image', '-i', dest='input_image',
+        parser.add_option(
+            '--input-image', '-i', dest='input_image',
             type='str', default=None, metavar="FILE",
             help=r("Input image of the mapping. \
             This alway the 'experimental image' which is an image with the \
             experimental data. This is never the reference image - the atlas image.\
             Anyway, this image is anything located in the experimental image \
             stack space."))
-        parser.add_option('--reference-image', '-r', dest='reference_image',
+        parser.add_option(
+            '--reference-image', '-r', dest='reference_image',
             type='str', default=None, metavar="FILE",
             help=r("Reference image of the mapping \
             or any image data located in the reference (atlas) space. Usually \
             this will be indeed the reference atlas itself."))
-        parser.add_option('--output-image', '-o', dest='output_image',
+        parser.add_option(
+            '--output-image', '-o', dest='output_image',
             type='str', default=None, metavar="FILE",
             help=r("The output image filename. \
             This is where the result of the computations will be saved to. \
             The type of the output image is the same as the type of the \
             input image."))
-        parser.add_option('--slicing-axis', '-s',
+        parser.add_option(
+            '--slicing-axis', '-s',
             dest='slicing_axis', type='int', default=1, metavar="INT",
             help=r('Index of the slicing axis: 0, 1 or 2. Default is 1. \
             Zero corresponds to sagittal plane, One corresponds to \
             coronal plane while two represents the horizontal plane.\
             This works only when the images follow the RAS orientation.'))
-        parser.add_option('--direction', dest='direction',
+        parser.add_option(
+            '--direction', dest='direction',
             default='from_atlas_to_raw', type="choice",
             choices=C_ALLOWED_DIRECTIONS, metavar="DIRECTION",
             help=r("Direction in which the mapping will be conducted. \
@@ -834,49 +837,57 @@ class bidirectional_coregistration_mapper(enclosed_workflow):
             space into the reference space (the atlas spce). \
             The 'from_atlas_to_raw' will use data located in the atlas \
             space into the space of the input image stack."))
-        parser.add_option('--offset', dest='offset',
+        parser.add_option(
+            '--offset', dest='offset',
             default=0, type='int', metavar="INT",
             help=r('Index of the first section. Defaults to 0, but \
             will be usually 1. Use this if numberinf of your sections starts \
             with number other that zero. Please, to not use negative \
             numbers. This will not work.'))
-        parser.add_option('--interpolation', dest='interpolation',
+        parser.add_option(
+            '--interpolation', dest='interpolation',
             default=1, type='int', metavar="INT",
             help=r('Define interpolation type used for reslicing the images. \
             Three options are allowed at the moment: 0 for NN interpolation, \
             1 for linear interpolation and 2 for order 3 BSpline \
             interpolation.'))
-        parser.add_option('--coregistration-affine',
+        parser.add_option(
+            '--coregistration-affine',
             dest='coregistration_affine', type='str', default=None,
             metavar="FILE",
             help=r("Affine transformation from the deformable reconstruction \
             3D image to the reference image (i.e. the atlas image).\
             This is an obligatory parameter."))
-        parser.add_option('--coregistration-deformable-forward',
+        parser.add_option(
+            '--coregistration-deformable-forward',
             dest='coregistration_deformable_forward', type='str',
             metavar="FILE",
             default=None, help=r("Forward deformable warp which maps the \
             3D deformable reconstruction image to the reference image \
             space. This is an obligatory parameter."))
-        parser.add_option('--coregistration-deformable-inverse',
+        parser.add_option(
+            '--coregistration-deformable-inverse',
             dest='coregistration_deformable_inverse', type='str',
             metavar="FILE",
             default=None, help=r("Inverse deformable warp which maps the \
             3D deformable reconstruction image to the reference image \
             space. This is an obligatory parameter."))
-        parser.add_option('--section-affine-template',
+        parser.add_option(
+            '--section-affine-template',
             dest='section_affine_template', type='str', default=None,
             metavar="FILE",
             help=r("Filename template for affine transformation from raw stack \
             to affine reconstruction. One should provide values like this: \
             'affine_\%04d.txt'."))
-        parser.add_option('--section-deformable-fwd-template',
+        parser.add_option(
+            '--section-deformable-fwd-template',
             dest='section_deformable_fwd_template', type='str', default=None,
             metavar="FILE",
             help=r("Filename template for forward warps from the affine \
             reconstruction to deformable reconstruction. The values should be \
             provided like this: 'section_\%04d_Warp.nii.gz'."))
-        parser.add_option('--section-deformable-inv-template',
+        parser.add_option(
+            '--section-deformable-inv-template',
             dest='section_deformable_inv_template', type='str', default=None,
             metavar="FILE",
             help=r("Filename template for inverse warps from affine \

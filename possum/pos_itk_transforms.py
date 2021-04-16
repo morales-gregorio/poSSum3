@@ -26,7 +26,8 @@ def read_transformation_txt_file(transformation_file):
 
     # Then extract the transformation class name (it is very important which
     # type of transformation given file carries :)
-    transformation_class = transformation_string[2].strip().split(':')[1].strip()
+    transformation_class = \
+    transformation_string[2].strip().split(':')[1].strip()
 
     # Extract the actual parametres from the parameters string.
     parameters = \
@@ -36,7 +37,7 @@ def read_transformation_txt_file(transformation_file):
     # And then the same for the fixed parameters. Make them floats afterwards,
     fixed_parameters = \
         transformation_string[4].strip().split(':')[1].strip().split(' ')
-    fixed_parameters =  map(float, fixed_parameters)
+    fixed_parameters = map(float, fixed_parameters)
 
     result = {'transformation_class': transformation_class,
               'parameters': parameters,
@@ -157,10 +158,11 @@ def load_warp_field_transform_from_file(warp_filed_filename):
     return warp_transform
 
 
-def reslice_image(transforms, moving_image, reference_image=None, interpolator=None, \
-        default_pixel_value=0):
+def reslice_image(transforms, moving_image, reference_image=None,
+                  interpolator=None, default_pixel_value=0):
     """
-    Apply `transforms` to the `moving_image` an reslice to the `reference_image` space.
+    Apply `transforms` to the `moving_image` an reslice to the
+    `reference_image` space.
     Reslicing is performed using the `interpolator`.
 
     :param transforms: iterable of transformations to be applied. All
@@ -181,7 +183,8 @@ def reslice_image(transforms, moving_image, reference_image=None, interpolator=N
     :type default_pixel_value: int, float or tupe
 
     :param interpolator: Ready-to-use interpolation image function.
-    Linear image interpolation function is used by default. Check `http://www.itk.org/Doxygen/html/group__ImageInterpolators.html`
+    Linear image interpolation function is used by default. Check
+    `http://www.itk.org/Doxygen/html/group__ImageInterpolators.html`
     for a list of available image interpolation functions.
     :type interpolator: `itk.InterpolateImageFunction`
     """
@@ -295,9 +298,11 @@ def itk_read_transformations_from_files(transformation_files):
                 load_warp_field_transform_from_file(transformation_filename))
             logger.info("As displacement field.")
         else:
-            logger.critical("Unrecognized transformation file %s. Exiting.", \
+            logger.critical(
+                "Unrecognized transformation file %s. Exiting.",
                 transformation_filename)
-            raise RuntimeError("Unrecognized transformation file %s." \
+            raise RuntimeError(
+                "Unrecognized transformation file %s."
                 % transformation_filename)
 
     logger.debug("Done loading transformations from file.")
@@ -305,7 +310,8 @@ def itk_read_transformations_from_files(transformation_files):
     return transformations
 
 
-def apply_transformation_workflow(moving_file, output_file, reference_file, transformation_list=None):
+def apply_transformation_workflow(moving_file, output_file, reference_file,
+                                  transformation_list=None):
     """
     Currently only two types of transformations are supported. If the
     transformation file a a text file it is assumed that is is a matrix based
@@ -397,5 +403,5 @@ def itk_coordinate_map(input_image, physical=True):
 
 if __name__ == "__main__":
     pass
-    #apply_transformation_workflow("0070.png", "x.nii.gz", "0070.nii.gz",
+    # apply_transformation_workflow("0070.png", "x.nii.gz", "0070.nii.gz",
     #    ["x.txt", "d.nii.gz"])

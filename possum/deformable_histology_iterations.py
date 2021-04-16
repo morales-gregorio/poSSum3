@@ -4,10 +4,10 @@ import sys
 import copy
 import numpy as np
 
-import pos_wrappers
-from pos_wrapper_skel import generic_workflow
-import pos_parameters
-from pos_deformable_wrappers import blank_slice_deformation_wrapper
+from possum import pos_wrappers
+from possum.pos_wrapper_skel import generic_workflow
+from possum import pos_parameters
+from possum.pos_deformable_wrappers import blank_slice_deformation_wrapper
 
 """
 * Assigning weights for the images by reading them from files or
@@ -22,17 +22,39 @@ from pos_deformable_wrappers import blank_slice_deformation_wrapper
 
 class deformable_reconstruction_iteration(generic_workflow):
     _f = {
-        'src_slice'  : pos_parameters.filename('src_slice',  work_dir='00_src_slices',      str_template='{idx:04d}.nii.gz'),
-        'processed'  : pos_parameters.filename('processed',  work_dir='01_process_slices',  str_template='{idx:04d}.nii.gz'),
-        'outline'    : pos_parameters.filename('outline',    work_dir='02_outline',         str_template='{idx:04d}.nii.gz'),
-        'poutline'   : pos_parameters.filename('poutline',   work_dir='03_poutline',        str_template='{idx:04d}.nii.gz'),
-        'cmask'      : pos_parameters.filename('cmask',      work_dir='04_cmask',           str_template='{idx:04d}.nii.gz'),
-        'pcmask'     : pos_parameters.filename('pcmask',     work_dir='05_pcmask',          str_template='{idx:04d}.nii.gz'),
-        'transform'  : pos_parameters.filename('transform',  work_dir='11_transformations', str_template='{idx:04d}Warp.nii.gz'),
-        'out_naming' : pos_parameters.filename('out_naming', work_dir='11_transformations', str_template='{idx:04d}'),
-        'resliced'   : pos_parameters.filename('resliced',   work_dir='21_resliced',        str_template='{idx:04d}.nii.gz'),
-        'resliced_outline' : pos_parameters.filename('resliced_outline', work_dir='22_resliced_outline', str_template='{idx:04d}.nii.gz'),
-        'resliced_custom' : pos_parameters.filename('resliced_custom', work_dir='24_resliced_custom', str_template='{idx:04d}.nii.gz')
+        'src_slice': pos_parameters.filename(
+            'src_slice', work_dir='00_src_slices',
+            str_template='{idx:04d}.nii.gz'),
+        'processed': pos_parameters.filename(
+            'processed', work_dir='01_process_slices',
+            str_template='{idx:04d}.nii.gz'),
+        'outline': pos_parameters.filename(
+            'outline', work_dir='02_outline',
+            str_template='{idx:04d}.nii.gz'),
+        'poutline': pos_parameters.filename(
+            'poutline', work_dir='03_poutline',
+            str_template='{idx:04d}.nii.gz'),
+        'cmask': pos_parameters.filename(
+            'cmask', work_dir='04_cmask',
+            str_template='{idx:04d}.nii.gz'),
+        'pcmask': pos_parameters.filename(
+            'pcmask', work_dir='05_pcmask',
+            str_template='{idx:04d}.nii.gz'),
+        'transform': pos_parameters.filename(
+            'transform', work_dir='11_transformations',
+            str_template='{idx:04d}Warp.nii.gz'),
+        'out_naming': pos_parameters.filename(
+            'out_naming', work_dir='11_transformations',
+            str_template='{idx:04d}'),
+        'resliced': pos_parameters.filename(
+            'resliced', work_dir='21_resliced',
+            str_template='{idx:04d}.nii.gz'),
+        'resliced_outline': pos_parameters.filename(
+            'resliced_outline', work_dir='22_resliced_outline',
+            str_template='{idx:04d}.nii.gz'),
+        'resliced_custom': pos_parameters.filename(
+            'resliced_custom', work_dir='24_resliced_custom',
+            str_template='{idx:04d}.nii.gz')
         }
 
     __IMAGE_DIMENSION = 2
@@ -97,7 +119,8 @@ class deformable_reconstruction_iteration(generic_workflow):
         parameters passed via the command line thus all images will be
         registared using the same set of parameters.
 
-        2. If a row contains nine fields they are interpreted in the following way:
+        2. If a row contains nine fields they are interpreted in
+        the following way:
             1. Moving image index,
             2. Fixed image index,
             3. Image similarity metric,
@@ -130,8 +153,8 @@ class deformable_reconstruction_iteration(generic_workflow):
             # Check, if there is only one assignment per file
 
             if key in returnDictionary:
-                print >> sys.stderr, \
-                    "Entry %s defined more than once. Skipping..." % key
+                print("Entry %s defined more than once. Skipping..." % key,
+                      file=sys.stderr)
                 continue
 
             if len(line) > 2:
@@ -291,7 +314,7 @@ class deformable_reconstruction_iteration(generic_workflow):
         commands = []
 
         for i in self.slice_range:
-            metrics  = []
+            metrics = []
             j_data = self.masked_registraion.get(i, None)
 
             if j_data is None:
@@ -299,7 +322,8 @@ class deformable_reconstruction_iteration(generic_workflow):
                 fixed_outline_type = 'poutline'
                 mask_image = None
                 j = i
-                r_metric, parameter, iterations, transf_grad, reg_type, reg_ammount =\
+                r_metric, parameter, iterations, \
+                    transf_grad, reg_type, reg_ammount = \
                     self._get_default_reg_settings()
 
             else:
@@ -307,11 +331,12 @@ class deformable_reconstruction_iteration(generic_workflow):
                 fixed_outline_type = 'outline'
                 j = j_data['fixed']
                 mask_image = self.f['cmask'](idx=j)
-                r_metric, parameter, iterations, transf_grad, reg_type, reg_ammount =\
+                r_metric, parameter, iterations, \
+                    transf_grad, reg_type, reg_ammount = \
                     self._get_custom_reg_settings(i)
 
             if self.options.inputVolume and self.options.inputVolumeWeight > 0:
-                metric = pos_wrappers.ants_intensity_meric(
+                metric = pos_wrappers.ants_intensity_metric(
                     fixed_image=self.f[fixed_image_type](idx=j),
                     moving_image=self.f['src_slice'](idx=i),
                     metric=r_metric,
@@ -320,7 +345,7 @@ class deformable_reconstruction_iteration(generic_workflow):
                 metrics.append(copy.deepcopy(metric))
 
             if self.options.outlineVolume and self.options.outlineVolumeWeight > 0:
-                outline_metric = pos_wrappers.ants_intensity_meric(
+                outline_metric = pos_wrappers.ants_intensity_metric(
                     fixed_image=self.f[fixed_outline_type](idx=j),
                     moving_image=self.f['outline'](idx=i),
                     metric=r_metric,
@@ -329,7 +354,7 @@ class deformable_reconstruction_iteration(generic_workflow):
                 metrics.append(copy.deepcopy(outline_metric))
 
             if self.options.referenceVolume and self.options.referenceVolumeWeight > 0:
-                reference_metric = pos_wrappers.ants_intensity_meric(
+                reference_metric = pos_wrappers.ants_intensity_metric(
                     fixed_image=self.parent_process.f['ref_custom'](idx=j),
                     moving_image=self.f['src_slice'](idx=i),
                     metric=r_metric,

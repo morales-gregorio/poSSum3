@@ -126,7 +126,7 @@ class reorder_volume_workflow(pos_wrapper_skel.enclosed_workflow):
 
             # Then map the list from file into a dictionary.
             self._reorder_mapping =\
-                dict(map(lambda (x, y): (int(x), int(y)), list(reader)))
+                dict(map(lambda x, y: (int(x), int(y)), list(reader)))
 
     def _check_mapping_structure(self):
         """
@@ -200,7 +200,7 @@ class reorder_volume_workflow(pos_wrapper_skel.enclosed_workflow):
         # format where it starts from 0:
         self._logger.info("Reducing slices indexes by one.")
         self._reorder_mapping = \
-            dict(map(lambda (k, v): (int(k - 1), int(v - 1)),
+            dict(map(lambda k, v: (int(k - 1), int(v - 1)),
                      self._reorder_mapping.items()))
         self._logger.info("Reducing slices indexes by one ... Done.")
 

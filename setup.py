@@ -1,13 +1,11 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 from setuptools.command.test import test as TestCommand
 import io
-import codecs
 import os
-import sys
-
 import possum
 
 here = os.path.abspath(os.path.dirname(__file__))
+
 
 def read(*filenames, **kwargs):
     encoding = kwargs.get('encoding', 'utf-8')
@@ -18,7 +16,9 @@ def read(*filenames, **kwargs):
             buf.append(f.read())
     return sep.join(buf)
 
+
 long_description = read('README.md', 'CHANGES.txt')
+
 
 class run_tests(TestCommand):
     def finalize_options(self):
@@ -30,15 +30,15 @@ class run_tests(TestCommand):
         import doctest
 
         verbose_flag = False
-        print doctest.testmod(possum.pos_wrappers, verbose=verbose_flag)
-        print doctest.testmod(possum.pos_parameters, verbose=verbose_flag)
-        print doctest.testmod(possum.pos_wrapper_skel, verbose=verbose_flag)
-        print doctest.testmod(possum.pos_common, verbose=verbose_flag)
-        print doctest.testmod(possum.pos_color, verbose=verbose_flag)
-        print doctest.testmod(possum.pos_segmentation_parser, verbose=verbose_flag)
-        if os.environ.get('TRAVIS') != 'true' and \
-        os.environ.get('CI') != 'true':
-                print doctest.testmod(possum.pos_itk_core, verbose=verbose_flag)
+        print(doctest.testmod(possum.pos_wrappers, verbose=verbose_flag))
+        print(doctest.testmod(possum.pos_parameters, verbose=verbose_flag))
+        print(doctest.testmod(possum.pos_wrapper_skel, verbose=verbose_flag))
+        print(doctest.testmod(possum.pos_common, verbose=verbose_flag))
+        print(doctest.testmod(possum.pos_color, verbose=verbose_flag))
+        print(doctest.testmod(possum.pos_segmentation_parser, verbose=verbose_flag))
+        if os.environ.get('TRAVIS') != 'true' and os.environ.get('CI') != 'true':
+            print(doctest.testmod(possum.pos_itk_core, verbose=verbose_flag))
+
 
 setup(
     name='possum-reconstruction',
@@ -47,12 +47,12 @@ setup(
     license='MIT',
     author='Piotr Majka',
     install_requires=['config>=0.3.9', 'networkx>=1.6', 'numpy', 'scipy',
-        'coveralls', 'xlrd', 'xlutils'],
+                      'coveralls', 'xlrd', 'xlutils'],
     cmdclass={'test': run_tests},
     author_email='piotr.majka@op.pl',
     description='three dimensional image reconstruction from serial sections.',
     long_description=long_description,
-    packages=['possum','bin'],
+    packages=['possum', 'bin'],
     scripts=['bin/pos_align_by_moments', 'bin/pos_coarse_fine',
              'bin/pos_deformable_histology_reconstruction',
              'bin/pos_pairwise_registration', 'bin/pos_reorder_volume',
@@ -62,7 +62,7 @@ setup(
     include_package_data=True,
     platforms='Linux',
     test_suite='possum.test.test_possum',
-    classifiers = [
+    classifiers=[
         'Programming Language :: Python :: 2.7',
         'Development Status :: 4 - Beta',
         'Natural Language :: English',
