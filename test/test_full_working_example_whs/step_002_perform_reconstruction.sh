@@ -65,7 +65,7 @@ do
 	AFFINE_FIXED_IMAGE=${DIR_COARSE_ALIGNMENT}/${DIR_PAIRWISE_ITERATION}${PREVIOUS_ITER}/slices_to_reference_${PREVIOUS_ITER}.nii.gz
     fi
     
-    OUTPUT_NAMING=${DIR_COARSE_ALIGNMENT}/referece_to_slice_${iteration}_
+    OUTPUT_NAMING=${DIR_COARSE_ALIGNMENT}/reference_to_slice_${iteration}_
     
     # Well here's why we remove the results from previous runs.
     # The cacultations are performed only and only if the resulting files
