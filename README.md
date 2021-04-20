@@ -54,6 +54,9 @@ tar -xvvzf itksnap-2.2.0-20110504-Linux-x86_64.tar.gz
 export PATH=$PATH:/absolute-path-to-the-current-dir/itksnap-2.2.0-20110504-Linux-x86_64/bin/
 ```
 
+Setting the paths permanently
+-----------------------------
+
 You will have to rerun the `export PATH` commands every time you open a new session. To avoid this you can add those commands to your `~/.bashrc` file so they are executed automatically every time you start a new session. 
 
 Preconfigured VM
