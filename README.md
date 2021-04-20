@@ -25,7 +25,7 @@ If you have never used conda, we recommend starting out with
 your system in there and you should be able to use conda from the terminal.
 
 The `environment.yaml` file contains almost all dependencies you need to run poSSum with python 3.
-You can build your environment using:
+In your terminal, you can build your environment using:
 ```
 conda env create -f environment.yaml
 ```
@@ -42,7 +42,7 @@ Now you have all the necessary dependencies and can install possum in you conda 
 ```
 conda activate possum 
 ```
-Finally use pip to finalize the installation of possum and add all the scripts you your path, from the same directory where the `setup.py` is run:
+Finally use pip to finalize the installation of possum and add all the scripts you your path, from the same directory where the `setup.py` file can be found you should run:
 ```
 pip install .
 ```
@@ -54,6 +54,7 @@ tar -xvvzf itksnap-2.2.0-20110504-Linux-x86_64.tar.gz
 export PATH=$PATH:/absolute-path-to-the-current-dir/itksnap-2.2.0-20110504-Linux-x86_64/bin/
 ```
 
+You will have to rerun the `export PATH` commands every time you open a new session. To avoid this you can add those commands to your `~/.bashrc` file so they are executed automatically every time you start a new session. 
 
 Preconfigured VM
 ================
