@@ -5,13 +5,54 @@ Possum volumetric reconstruction framework
 
 [![Build Status](https://travis-ci.org/pmajka/poSSum.svg?branch=master)](https://travis-ci.org/pmajka/poSSum) [![Coverage Status](https://coveralls.io/repos/pmajka/poSSum/badge.svg?branch=master)](https://coveralls.io/r/pmajka/poSSum?branch=master)
 
-========
+
 Overview
 ========
 
 The Possum framework is a set of scripts and workflows for reconstructing
 three-dimensional images based on series of serial sections of different
 modalities and quality.
+
+
+Quickstart
+================
+
+The easiest way to get possum running (withouth compiling several packages) is to use
+a [conda environment](https://docs.conda.io/en/latest/).
+
+If you have never used conda, we recommend starting out with 
+[miniconda](https://docs.conda.io/en/latest/miniconda.html). Follow the download instructions for
+your system in there and you should be able to use conda from the terminal.
+
+The `environment.yaml` file contains almost all dependencies you need to run poSSum with python 3.
+You can build your environment using:
+```
+conda env create -f environment.yaml
+```
+
+The only missing dependencies are `c3d` and the optional `ItkSnap`. 
+
+To get convert3d (`c3d`) you can install it using:
+```
+wget http://downloads.sourceforge.net/project/c3d/c3d/1.0.0/c3d-1.0.0-Linux-x86_64.tar.gz -O c3d-1.0.0-Linux-x86_64.tar.gz
+tar -xvvzf c3d-1.0.0-Linux-x86_64.tar.gz
+export PATH=$PATH:/absolute-path-to-the-current-dir/c3d-1.0.0-Linux-x86_64/bin/
+```
+Now you have all the necessary dependencies and can install possum in you conda environment. Start by activating the environment, the name of the environment is `possum` and it is defined in the `environment.yaml` file, you can change it if you like.
+```
+conda activate possum 
+```
+Finally use pip to finalize the installation of possum and add all the scripts you your path, from the same directory where the `setup.py` is run:
+```
+pip install .
+```
+
+[Optional] If you would also like to use `ItkSnap` you can install it using:
+```
+wget http://downloads.sourceforge.net/project/itk-snap/itk-snap/2.2.0/itksnap-2.2.0-20110504-Linux-x86_64.tar.gz -O itksnap-2.2.0-20110504-Linux-x86_64.tar.gz
+tar -xvvzf itksnap-2.2.0-20110504-Linux-x86_64.tar.gz
+export PATH=$PATH:/absolute-path-to-the-current-dir/itksnap-2.2.0-20110504-Linux-x86_64/bin/
+```
 
 
 Preconfigured VM
