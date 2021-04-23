@@ -4,8 +4,6 @@ import io
 import os
 import possum
 
-here = os.path.abspath(os.path.dirname(__file__))
-
 
 def read(*filenames, **kwargs):
     encoding = kwargs.get('encoding', 'utf-8')
@@ -35,13 +33,15 @@ class run_tests(TestCommand):
         print(doctest.testmod(possum.pos_wrapper_skel, verbose=verbose_flag))
         print(doctest.testmod(possum.pos_common, verbose=verbose_flag))
         print(doctest.testmod(possum.pos_color, verbose=verbose_flag))
-        print(doctest.testmod(possum.pos_segmentation_parser, verbose=verbose_flag))
-        if os.environ.get('TRAVIS') != 'true' and os.environ.get('CI') != 'true':
+        print(doctest.testmod(possum.pos_segmentation_parser,
+                              verbose=verbose_flag))
+        if os.environ.get('TRAVIS') != 'true' and \
+           os.environ.get('CI') != 'true':
             print(doctest.testmod(possum.pos_itk_core, verbose=verbose_flag))
 
 
 setup(
-    name='possum-reconstruction',
+    name='possum',
     version=possum.__version__,
     url='http://github.com/pmajka/possum/',
     license='MIT',
@@ -63,7 +63,7 @@ setup(
     platforms='Linux',
     test_suite='possum.test.test_possum',
     classifiers=[
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.9',
         'Development Status :: 4 - Beta',
         'Natural Language :: English',
         'Environment :: Console',
