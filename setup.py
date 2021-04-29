@@ -2,7 +2,6 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 import io
 import os
-import possum
 
 
 def read(*filenames, **kwargs):
@@ -19,6 +18,7 @@ long_description = read('README.md', 'CHANGES.txt')
 
 
 class run_tests(TestCommand):
+
     def finalize_options(self):
         TestCommand.finalize_options(self)
         self.test_args = []
@@ -26,6 +26,7 @@ class run_tests(TestCommand):
 
     def run_tests(self):
         import doctest
+        import possum
 
         verbose_flag = False
         print(doctest.testmod(possum.pos_wrappers, verbose=verbose_flag))
@@ -42,7 +43,7 @@ class run_tests(TestCommand):
 
 setup(
     name='possum',
-    version=possum.__version__,
+    version='0.9.4.dev',
     url='http://github.com/pmajka/possum/',
     license='MIT',
     author='Piotr Majka',
