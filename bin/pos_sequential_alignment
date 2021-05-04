@@ -1050,14 +1050,14 @@ class sequential_alignment(output_volume_workflow):
 
         reslicing_options.add_option('--enable-reslice', default=True,
             dest='enable_reslice', action='store_true',
-            help='Supress generating grayscale volume')
+            help='Suppress generating grayscale volume')
         reslicing_options.add_option('--disable-reslice', default=True,
             dest='enable_reslice', action='store_false')
 
         reslicing_options.add_option('--reslice-background', default=None,
             type='float', dest='reslice_background',
             help=r('Background color. A float and / or negarive \
-            values will probablu work, but unless you have to really \
+            values will probably work, but unless you have to really \
             just provide an integer.'))
         reslicing_options.add_option('--reslice-interpolation',
             dest='reslice_interpolation', default=None, type='choice',
@@ -1067,8 +1067,8 @@ class sequential_alignment(output_volume_workflow):
         reslicing_options.add_option('--reslice-resampling',
             dest='reslicing_resampling', default=None, nargs=2,
             type=float, help=r("Resampling during applying transforms to \
-            individual sections expressed in precents. To be exact applied \
-            after the image has been transformed and optioenally cropped \
+            individual sections expressed in percents. To be exact applied \
+            after the image has been transformed and optionally cropped \
             Provide two positive non-zero float values."))
         reslicing_options.add_option('--output-volume-roi', default=None,
             type='int', dest='output_volume_roi',  nargs=4,
@@ -1086,7 +1086,7 @@ class sequential_alignment(output_volume_workflow):
 
         output_volume_opts.add_option('--enable-output-volumes',
             default=True, dest='enable_output_volumes', action='store_true',
-            help='Supress generating color / rgb / multichannel volume.')
+            help='Suppress generating color / rgb / multichannel volume.')
         output_volume_opts.add_option('--disable-output-volumes', default=True,
             dest='enable_output_volumes', action='store_false')
 

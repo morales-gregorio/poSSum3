@@ -507,7 +507,7 @@ class coarse_to_fine_transformation_merger(generic_workflow):
         workflow_settings.add_option('--skip-transforms',
             default=False, dest='skip_transforms',
             action='store_const', const=True,
-            help=r('Supresses generation of the output transformation. \
+            help=r('Suppresses generation of the output transformation. \
             Only generates the smoothed transformations.'))
 
         parser.add_option_group(workflow_settings)

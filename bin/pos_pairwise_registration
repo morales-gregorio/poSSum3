@@ -1098,19 +1098,19 @@ class pairwiseRegistration(output_volume_workflow):
 
         parser.add_option('--skipPreprocessing', default=False,
             dest='skipPreprocessing', action='store_const', const=True,
-            help='Supress preprocessing images.')
+            help='Suppress preprocessing images.')
         parser.add_option('--skipGrayReslice', default=False,
             dest='skipGrayReslice', action='store_const', const=True,
-            help='Supress generating grayscale volume')
+            help='Suppress generating grayscale volume')
         parser.add_option('--skipColorReslice', default=False,
             dest='skipColorReslice', action='store_const', const=True,
-            help='Supress generating RGB volume.')
+            help='Suppress generating RGB volume.')
         parser.add_option('--skipTransformGeneration', default=False,
             dest='skipTranasformGeneration', action='store_const', const=True,
-            help='Supress generating transforms.')
+            help='Suppress generating transforms.')
         parser.add_option('--skipOutputVolumes', default=False,
             dest='skipOutputVolumes', action='store_const', const=True,
-            help='Supress generating volumes.')
+            help='Suppress generating volumes.')
         parser.add_option('--output-volumes-directory', default=None,
             dest='outputVolumesDirectory', action='store',
             help='Store output volumes in given directory instead of using default one.')

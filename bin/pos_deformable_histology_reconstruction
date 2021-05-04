@@ -199,7 +199,7 @@ class deformable_reconstruction_workflow(output_volume_workflow):
         # Execute the parents before-execution activities
         super(self.__class__, self)._pre_launch()
 
-        # Preprocessing the input sliced can be supressed by issuing a command
+        # Preprocessing the input sliced can be Suppressed by issuing a command
         # line parameter
         if not self.options.skipSlicePreprocess:
             self.prepare_slices()
