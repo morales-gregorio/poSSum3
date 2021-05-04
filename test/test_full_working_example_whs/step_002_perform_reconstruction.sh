@@ -124,7 +124,7 @@ do
 	    --ants-image-metric CC \
 	    --movingSlicesRange ${IDX_FIRST_SLICE} ${IDX_LAST_SLICE} \
 	    --fixedSlicesRange  ${IDX_FIRST_SLICE} ${IDX_LAST_SLICE} \
-	    --reslice-backgorund ${RESLICE_BACKGROUND} \
+	    --reslice-background ${RESLICE_BACKGROUND} \
 	    --fixedImagesDir ${DIR_REF} \
 	    --movingImagesDir ${DIR_COARSE_ALIGNMENT}/${DIR_PAIRWISE_ITERATION}${ii}/exp/ \
 	    --output-volumes-directory ${DIR_WORK}/ \

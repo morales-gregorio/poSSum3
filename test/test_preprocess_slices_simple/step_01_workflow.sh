@@ -125,7 +125,7 @@ pos_sequential_alignment \
         --use-rigid-affine \
         --ants-image-metric CC \
         --affine-gradient-descent 0.5 0.95 0.0001 0.0001 \
-        --reslice-backgorund 0 \
+        --reslice-background 0 \
         --graph-edge-lambda 0.0 \
         --graph-edge-epsilon 2 \
     --output-volumes-directory . \

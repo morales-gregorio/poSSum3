@@ -551,7 +551,7 @@ _pos_sequential_alignment()
       \
       --enable-reslice \
       --disable-reslice \
-      --reslice-backgorund \
+      --reslice-background \
       --reslice-interpolation \
       \
       --enable-output-volumes \
@@ -680,7 +680,7 @@ _pos_sequential_alignment()
         return 0
     fi
 
-    if [ ${prev} == '--reslice-backgorund' ]; then
+    if [ ${prev} == '--reslice-background' ]; then
         COMPREPLY=( $(compgen -W "integer_0-255 0 1 255" -- ${cur}) )
         return 0
     fi

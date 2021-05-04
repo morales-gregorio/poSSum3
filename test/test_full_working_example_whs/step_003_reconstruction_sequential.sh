@@ -47,7 +47,7 @@ pos_sequential_alignment \
      --enable-moments \
      --use-rigid-affine \
      --ants-image-metric MI \
-     --reslice-backgorund ${RESLICE_BACKGROUND} \
+     --reslice-background ${RESLICE_BACKGROUND} \
      --transformations-directory ${DIR_SEQUENTIAL_ALIGNMENT_TRANSFORMS}/ \
      --graph-edge-lambda 0.000 \
      --graph-edge-epsilon 5 \

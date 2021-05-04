@@ -45,7 +45,7 @@ Images in order Continous naming, Reference slice ::
             --loglevel DEBUG \
             --registration-color-channel blue \
             --median-filter-radius 4 4 \
-            --reslice-backgorund 255 \
+            --reslice-background 255 \
             --disable-source-slices-generation \
             --use-rigid-affine \
             --enableTransformations \

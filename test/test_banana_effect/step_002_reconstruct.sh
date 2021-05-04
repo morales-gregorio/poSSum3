@@ -34,7 +34,7 @@ pos_pairwise_registration \
     --ants-image-metric MI \
     --movingSlicesRange ${IDX_FIRST_SLICE} ${IDX_LAST_SLICE} \
     --fixedSlicesRange ${IDX_FIRST_SLICE} ${IDX_LAST_SLICE} \
-    --reslice-backgorund 0 \
+    --reslice-background 0 \
     --fixedImagesDir 003_shape_prior_sections/ \
     --movingImagesDir 004_distorted_sections/ \
     --output-volumes-directory . \
@@ -67,7 +67,7 @@ pos_sequential_alignment \
     --enable-transformations \
         --use-rigid-affine \
         --ants-image-metric MI \
-        --reslice-backgorund 0 \
+        --reslice-background 0 \
         --transformations-directory 007_sequential_alignment/ \
     --output-volumes-directory . \
         ${OV_SETTINGS} \

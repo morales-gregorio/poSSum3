@@ -56,7 +56,7 @@ pos_sequential_alignment \
         --median-filter-radius 1 1 \
         --use-rigid-affine \
         --ants-image-metric CC \
-        --reslice-backgorund 0 \
+        --reslice-background 0 \
         --graph-edge-lambda 0.0 \
         --graph-edge-epsilon 1 \
     --transformations-directory ${DIR_OUTPUT_TRANSFORMATIONS}/ \

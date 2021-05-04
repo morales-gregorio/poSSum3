@@ -1791,7 +1791,7 @@ class merge_components(generic_wrapper):
 class image_voxel_count_wrapper(generic_wrapper):
     """
     Determines the amount (sum or integral) of non-background pixels in the
-    provided image.  The backgorund color can be customized. The wrapper
+    provided image.  The background color can be customized. The wrapper
     requires setting up the: `image`, `background`, `voxel_sum` or
     `voxel_integral` parameters to work properly.
 

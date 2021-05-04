@@ -121,7 +121,7 @@ Utilizes typical options::
             --fixedSlicesRange 10 20   \
             --registrationColorChannelMovingImage blue  \
             --registrationColorChannelFixedImage green  \
-            --reslice-backgorund 255  \
+            --reslice-background 255  \
             --median-filter-radius 4 4 \
             --output-volumes-directory output_volumes_directory/ \
             --use-rigid-affine \

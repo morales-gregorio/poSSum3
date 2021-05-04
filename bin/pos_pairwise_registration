@@ -282,7 +282,7 @@ class pairwiseRegistration(output_volume_workflow):
         for fixed_index in self._slice_assignment.values():
             command = pos_wrappers.image_voxel_count_wrapper(
                 image=self.f['fixed_gray'](idx=fixed_index),
-                background=self.options.resliceBackgorund,
+                background=self.options.resliceBackground,
                 voxel_sum=True)
             vox_count = float(command()['stdout'].strip())
             ref_slice_voxel_counts.append(vox_count)
@@ -333,7 +333,7 @@ class pairwiseRegistration(output_volume_workflow):
         for moving_index in self._slice_assignment.keys():
             command = pos_wrappers.image_voxel_count_wrapper(
                 image=self.f['moving_gray'](idx=moving_index),
-                background=self.options.resliceBackgorund,
+                background=self.options.resliceBackground,
                 voxel_sum=True)
             vox_count = float(command()['stdout'].strip())
             mov_slice_voxel_counts.append(vox_count)
@@ -780,7 +780,7 @@ class pairwiseRegistration(output_volume_workflow):
             resliced_type=self.f['resliced_gray'](idx=slice_number),
             slice_number=slice_number)
         command.updateParameters({
-            'background': self.options.resliceBackgorund,
+            'background': self.options.resliceBackground,
             'interpolation': self.options.resliceInterpolation})
 
         return copy.deepcopy(command)
@@ -799,7 +799,7 @@ class pairwiseRegistration(output_volume_workflow):
             resliced_type=self.f['resliced_color'](idx=slice_number),
             slice_number=slice_number)
         command.updateParameters({
-            'background': self.options.resliceBackgorund,
+            'background': self.options.resliceBackground,
             'interpolation': self.options.resliceInterpolation,
             'inversion_flag': self.options.invertMultichannel})
 
@@ -1083,8 +1083,8 @@ class pairwiseRegistration(output_volume_workflow):
         parser.add_option('--reslice-interpolation',
             dest='resliceInterpolation', default=None, type='str',
             help='Cubic Gaussian Linear Nearest Sinc cubic gaussian linear nearest sinc')
-        parser.add_option('--reslice-backgorund', default=None,
-            type='float', dest='resliceBackgorund',
+        parser.add_option('--reslice-background', default=None,
+            type='float', dest='resliceBackground',
             help='Background color')
         parser.add_option('--median-filter-radius', dest='medianFilterRadius',
             default=None, type='int', nargs=2,
