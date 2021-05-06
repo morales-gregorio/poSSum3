@@ -630,10 +630,7 @@ class pairwiseRegistration(output_volume_workflow):
         affine_iterations = self.__AFFINE_ITERATIONS
         output_naming = self.f['transf_naming'](mIdx=moving_slice_index,
                                                 fIdx=fixed_slice_index)
-
-        # Yeah, I know this is not the most optimal way
-        # to make a true/false string out of boolean value but ...
-        use_rigid_transformation = str(self.options.useRigidAffine).lower()
+        use_rigid_transformation = self.options.useRigidAffine
 
         # Define the image-to-image metric.
         metrics = []
@@ -669,10 +666,10 @@ class pairwiseRegistration(output_volume_workflow):
             iterations=self.__DEFORMABLE_ITERATIONS,
             affineIterations=affine_iterations,
             continueAffine=None,
-            rigidAffine=use_rigid_transformation,
+            rigidAffine=int(use_rigid_transformation),
             imageMetrics=metrics,
             initialAffine=initial_affine,
-            histogramMatching=str(self.__HISTOGRAM_MATCHING),
+            histogramMatching=int(self.__HISTOGRAM_MATCHING),
             miOption=[metric_parameter, self.__MI_SAMPLES],
             affineGradientDescent=gradient_descent_option,
             allMetricsConverge=None,
