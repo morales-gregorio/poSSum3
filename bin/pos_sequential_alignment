@@ -548,7 +548,7 @@ class sequential_alignment(output_volume_workflow):
         # Execute and commands and workflow the similarity measurements.
         stdout, stderr = self.execute(commands)
         similarity = map(lambda x: float(x.strip()),
-                          stdout.strip().split("\n"))
+                          stdout.strip().split(b'\n'))
 
 #       # ------------------------------------------
 #       import numpy as np
