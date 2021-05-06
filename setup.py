@@ -47,8 +47,6 @@ setup(
     url='http://github.com/pmajka/possum/',
     license='MIT',
     author='Piotr Majka',
-    install_requires=['config>=0.3.9', 'networkx>=1.6', 'numpy', 'scipy',
-                      'coveralls', 'xlrd', 'xlutils'],
     cmdclass={'test': run_tests},
     author_email='piotr.majka@op.pl',
     description='three dimensional image reconstruction from serial sections.',
