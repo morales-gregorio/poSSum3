@@ -73,15 +73,15 @@ class coarse_to_fine_transformation_merger(generic_workflow):
                   self.options.sections_range[1] + 1)
 
         # Define default smoothing kernels for different type of parameters:
-        fields_array = ['smoothing_simga_rotation', 'smoothing_simga_offset',
-                        'smoothing_simga_scaling', 'smoothing_simga_fixed']
+        fields_array = ['smoothing_sigma_rotation', 'smoothing_sigma_offset',
+                        'smoothing_sigma_scaling', 'smoothing_sigma_fixed']
 
         # This is a bit more complicated. Iterate over the parameters regarding
         # the custom parameters' set. If given custom parameter is not defined,
         # use the generic parameter instead.
         for field in fields_array:
             if getattr(self.options, field) is None:
-                setattr(self.options, field, self.options.smoothing_simga)
+                setattr(self.options, field, self.options.smoothing_sigma)
 
     def _overrideDefaults(self):
         super(self.__class__, self)._overrideDefaults()
@@ -259,10 +259,10 @@ class coarse_to_fine_transformation_merger(generic_workflow):
         # default all types of parameters are smoothed with the same kernel.
         # Using command line parameters one can customize this behaviour.
         parameters_index = \
-            {'fixed': ([6, 7], self.options.smoothing_simga_fixed),
-             'offset': ([4, 5], self.options.smoothing_simga_offset),
-             'rotation': ([1, 2], self.options.smoothing_simga_rotation),
-             'scaling': ([0, 3], self.options.smoothing_simga_scaling)}
+            {'fixed': ([6, 7], self.options.smoothing_sigma_fixed),
+             'offset': ([4, 5], self.options.smoothing_sigma_offset),
+             'rotation': ([1, 2], self.options.smoothing_sigma_rotation),
+             'scaling': ([0, 3], self.options.smoothing_sigma_scaling)}
 
         # Apply smoothing for each of the parameters. Each kind of parameters
         # is smoothed with a amount of smoothing which depends on the king of
@@ -399,11 +399,11 @@ class coarse_to_fine_transformation_merger(generic_workflow):
         ret_value += "_start_" + str(self.options.sections_range[0])
         ret_value += "_end_" + str(self.options.sections_range[-1])
 
-        ret_value += "_s_" + str(self.options.smoothing_simga)
-        ret_value += "_sR_" + str(self.options.smoothing_simga_rotation)
-        ret_value += "_sO_" + str(self.options.smoothing_simga_offset)
-        ret_value += "_sS_" + str(self.options.smoothing_simga_scaling)
-        ret_value += "_sF_" + str(self.options.smoothing_simga_fixed)
+        ret_value += "_s_" + str(self.options.smoothing_sigma)
+        ret_value += "_sR_" + str(self.options.smoothing_sigma_rotation)
+        ret_value += "_sO_" + str(self.options.smoothing_sigma_offset)
+        ret_value += "_sS_" + str(self.options.smoothing_sigma_scaling)
+        ret_value += "_sF_" + str(self.options.smoothing_sigma_fixed)
 
         return ret_value
 
@@ -415,10 +415,10 @@ class coarse_to_fine_transformation_merger(generic_workflow):
             -s output_from_coarse_to_fine/01_smooth/smooth_%04d.txt \n\
             -o output_from_coarse_to_fine/02_output/output_%04d.txt \n\
             --sections-range 1 100 \n\
-            --smoothing-simga 5 \n\
-            --smoothing-simga-rotation 3 \n\
-            --smoothing-simga-offset 5  \n\
-            --smoothing-simga-fixed 7 \n\
+            --smoothing-sigma 5 \n\
+            --smoothing-sigma-rotation 3 \n\
+            --smoothing-sigma-offset 5  \n\
+            --smoothing-sigma-fixed 7 \n\
             --reports-directory 008_coarse_to_fine/ \n\
             --loglevel DEBUG \n\
             --cleanup \n\
@@ -473,28 +473,28 @@ class coarse_to_fine_transformation_merger(generic_workflow):
 
         smoothing_settings = \
             OptionGroup(parser, 'Processing settings.')
-        smoothing_settings.add_option('--smoothing-simga', default=5,
-            type='float', dest='smoothing_simga', metavar="FLOAT",
+        smoothing_settings.add_option('--smoothing-sigma', default=5,
+            type='float', dest='smoothing_sigma', metavar="FLOAT",
             help=r('General gaussian smoothing sigma. This value will \
             be used for smoothing scaling, rotation and translation \
             parameters of the transformation unless specific values \
             for these parameters are defined (see below). \
             Please provide a single FLOAT value here.'))
-        smoothing_settings.add_option('--smoothing-simga-rotation',
+        smoothing_settings.add_option('--smoothing-sigma-rotation',
             default=None, type='float', metavar="FLOAT",
-            dest='smoothing_simga_rotation',
+            dest='smoothing_sigma_rotation',
             help=r('A specific smoothing setting for rotation \
             parameter of the transformation.'))
-        smoothing_settings.add_option('--smoothing-simga-scaling',
+        smoothing_settings.add_option('--smoothing-sigma-scaling',
             default=None, type='float', metavar="FLOAT",
-            dest='smoothing_simga_scaling', help=r('A specific smoothing \
+            dest='smoothing_sigma_scaling', help=r('A specific smoothing \
             setting for the scaling parameter of the transformations.'))
-        smoothing_settings.add_option('--smoothing-simga-offset',
+        smoothing_settings.add_option('--smoothing-sigma-offset',
             default=None, type='float',  metavar="FLOAT",
-            dest='smoothing_simga_offset', help=r('A specific smoothing \
+            dest='smoothing_sigma_offset', help=r('A specific smoothing \
             setting for the translation parameters of transformations.'))
-        smoothing_settings.add_option('--smoothing-simga-fixed',
-            default=None, type='float', dest='smoothing_simga_fixed',
+        smoothing_settings.add_option('--smoothing-sigma-fixed',
+            default=None, type='float', dest='smoothing_sigma_fixed',
             metavar="FLOAT", help=r('A specific smoothing setting for the \
             fixed parameters of the transformations.'))
 

@@ -88,9 +88,9 @@ pos_coarse_fine \
     -s 008_coarse_to_fine/01_smooth/%04d.txt \
     -o 008_coarse_to_fine/02_output/%04d.txt \
     --sections-range ${IDX_FIRST_SLICE} ${IDX_LAST_SLICE} \
-    --smoothing-simga-rotation 5 \
-    --smoothing-simga-offset 5 \
-    --smoothing-simga-fixed 5 \
+    --smoothing-sigma-rotation 5 \
+    --smoothing-sigma-offset 5 \
+    --smoothing-sigma-fixed 5 \
     --reports-directory 008_coarse_to_fine/ \
     --loglevel DEBUG \
     --cleanup

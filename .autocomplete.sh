@@ -449,11 +449,11 @@ _pos_coarse_fine()
       --sections-range \
       --reports-directory \
       --skip-transforms \
-      --smoothing-simga \
-      --smoothing-simga-rotation \
-      --smoothing-simga-scaling \
-      --smoothing-simga-offset \
-      --smoothing-simga-fixed"
+      --smoothing-sigma \
+      --smoothing-sigma-rotation \
+      --smoothing-sigma-scaling \
+      --smoothing-sigma-offset \
+      --smoothing-sigma-fixed"
 
 
     if [[ ${prev} == 'pos_coarse_fine' ]] ; then
@@ -494,11 +494,11 @@ _pos_coarse_fine()
         return 0
     fi
 
-    if [ ${prev} == '--smoothing-simga' ] || \
-       [ ${prev} == '--smoothing-simga-rotation' ] || \
-       [ ${prev} == '--smoothing-simga-offset' ] || \
-       [ ${prev} == '--smoothing-simga-scaling' ] || \
-       [ ${prev} == '--smoothing-simga-fixed' ] ; then
+    if [ ${prev} == '--smoothing-sigma' ] || \
+       [ ${prev} == '--smoothing-sigma-rotation' ] || \
+       [ ${prev} == '--smoothing-sigma-offset' ] || \
+       [ ${prev} == '--smoothing-sigma-scaling' ] || \
+       [ ${prev} == '--smoothing-sigma-fixed' ] ; then
         COMPREPLY=( $(compgen -W "float" -- ${cur}) )
         return 0
     fi
