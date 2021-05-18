@@ -107,7 +107,7 @@ class boolean_parameter(generic_parameter):
     '{_value}'
 
     """
-    _str_template = "{_value}"
+    _str_template = "{_value:d}"
 
     def _serialize(self):
         if self.value is not None:
