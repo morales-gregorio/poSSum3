@@ -121,7 +121,7 @@ class generic_workflow(object):
     # Define the name for GNU parallel executeble name.
     __PARALLEL_EXECUTABLE_NAME = "parallel"
 
-    # _f is a dictionary holding definitions of files beeing a part of the
+    # _f is a dictionary holding definitions of files being a part of the
     # workflow. The purpose of this dictionary is to be able to easily access
     # and utilize filenames (from each stage of the workflow). You're gonna
     # like it.
@@ -130,7 +130,7 @@ class generic_workflow(object):
     # Override this attribute in the inherited classes.
     _usage = ""
 
-    # Just to avoid hadcoded strings further
+    # Just to avoid hardcoded strings further
     _DO_NOT_CREATE_WORKDIR = 'skip'
 
     def __init__(self, options, args):
@@ -164,7 +164,7 @@ class generic_workflow(object):
     def _initializeLogging(self):
         """
         Seems to be self explaining - initialized the logging module using
-        either ethe default logging settings or customized logging settings
+        either the default logging settings or customized logging settings
         according to provided command line paramteres.
         """
         pos_common.setup_logging(self.options.log_filename,

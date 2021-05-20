@@ -232,7 +232,7 @@ class coarse_to_fine_transformation_merger(generic_workflow):
         fixed_parameters = map(float, fixed)
 
         # ... and finally join them into a single list
-        all_parameters = transformation_parameters + fixed_parameters
+        all_parameters = list(transformation_parameters) + list(fixed_parameters)
 
         return all_parameters
 

@@ -767,7 +767,7 @@ class ants_point_set_estimation_metric(generic_wrapper):
                                            str_template=',{_value}'),
         'boundary_points_only':
             boolean_parameter('boundary_points_only', False,
-                              str_template=',{_value}'),
+                              str_template=',{_value:d}'),
     }
 
     def _get_value(self):
