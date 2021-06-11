@@ -451,7 +451,7 @@ class ants_registration(generic_wrapper):
         'dimension': value_parameter('dimension', 2),
         'verbose':
             switch_parameter('verbose', True,
-                             str_template='--{_name} {_value}'),
+                             str_template='--{_name} {_value:d}'),
         'transformation':
             ants_transformation_parameter('transformation',
                                           ('SyN', [0.25])),
@@ -469,18 +469,18 @@ class ants_registration(generic_wrapper):
                              (10000,) * 5, '--{_name} {_list}'),
         'rigidAffine':
             switch_parameter('rigid-affine', True,
-                             str_template='--{_name} {_value}'),
+                             str_template='--{_name} {_value:d}'),
         'continueAffine':
             switch_parameter('continue-affine', True,
-                             str_template='--{_name} {_value}'),
+                             str_template='--{_name} {_value:d}'),
         'useNN':
             switch_parameter('use-NN', False, str_template='--{_name}'),
         'histogramMatching':
             switch_parameter('use-Histogram-Matching', True,
-                             str_template='--{_name} {_value}'),
+                             str_template='--{_name} {_value:d}'),
         'allMetricsConverge':
             switch_parameter('use-all-metrics-for-convergence', True,
-                             str_template='--{_name} {_value}'),
+                             str_template='--{_name} {_value:d}'),
         'initialAffine':
             filename_parameter('initial-affine', None,
                                str_template='--{_name} {_value}'),
