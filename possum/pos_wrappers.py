@@ -1145,7 +1145,7 @@ class stack_and_reorient_wrapper(generic_wrapper):
         'stack_mask': filename_parameter('stack_mask', None),
         'slice_start': value_parameter('stacking-range', None, str_template='--{_name} {_value}'),
         'slice_end': value_parameter('slice_end', None),
-        'slice_step': value_parameter('slice_end', None),
+        'slice_step': value_parameter('slice_step', None),
         'output_volume_fn': filename_parameter('output_volume_fn', None),
         'permutation_order': list_parameter('permutation_order', [0, 1, 2], str_template='{_list}'),
         'orientation_code': string_parameter('orientation_code', 'RAS'),

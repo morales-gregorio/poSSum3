@@ -287,9 +287,10 @@ class sequential_alignment(output_volume_workflow):
         self._logger.info("Generating transformations.")
 
         # Calculate partial transforms - get partial transformation chain;
-        partial_transformation_pairs = \
-            map(lambda idx: self._get_slice_pair(idx),
-            self.options.slice_range)
+        ##partial_transformation_pairs = \
+        ##    map(lambda idx: self._get_slice_pair(idx),
+        ##    self.options.slice_range)
+        partial_transformation_pairs = [self._get_slice_pair(idx) for idx in self.options.slice_range]
 
         # Flatten the slices pairs
         partial_transformation_pairs =\
@@ -298,16 +299,18 @@ class sequential_alignment(output_volume_workflow):
         # If user decided to prealign the images by their centre of gravity
         # an additional series of transformations has to be carried out.
         if self.options.enable_moments_alignment:
-            commands = map(lambda x: self._get_cog_alignment(*x),
-                partial_transformation_pairs)
+            ##commands = map(lambda x: self._get_cog_alignment(*x),
+            ##    partial_transformation_pairs)
+            commands = [ self._get_cog_alignment(*x) for x in partial_transformation_pairs ]
             commands = list(filter(None, commands))
 
             self._logger.info("Executing the centre of gravity transforms.")
             self.execute(commands)
 
         # Calculate affine transformation for each slices pair
-        commands = map(lambda x: self._get_partial_transform(*x),
-            partial_transformation_pairs)
+        ##commands = map(lambda x: self._get_partial_transform(*x),
+        ##    partial_transformation_pairs)
+        commands = [ self._get_partial_transform(*x) for x in partial_transformation_pairs ]
         commands = list(filter(None, commands))
         self._logger.info("Executing the transformation commands.")
         self.execute(commands)
@@ -547,8 +550,9 @@ class sequential_alignment(output_volume_workflow):
 
         # Execute and commands and workflow the similarity measurements.
         stdout, stderr = self.execute(commands)
-        similarity = map(lambda x: float(x.strip()),
-                          stdout.strip().split(b'\n'))
+        ##similarity = map(lambda x: float(x.strip()),
+        ##                  stdout.strip().split(b'\n'))
+        similarity = [ float(x.strip()) for x in stdout.strip().split(b'\n') ]
 
 #       # ------------------------------------------
 #       import numpy as np
