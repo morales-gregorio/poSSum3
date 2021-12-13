@@ -42,7 +42,7 @@ Now you have all the necessary dependencies and can install possum in you conda 
 ```
 conda activate possum 
 ```
-Finally use pip to finalize the installation of possum and add all the scripts you your path, from the same directory where the `setup.py` file can be found you should run:
+Finally use pip to finalize the installation of possum, from the same directory where the `setup.py` file can be found you should run:
 ```
 pip install .
 ```
